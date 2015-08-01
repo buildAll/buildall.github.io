@@ -3,16 +3,16 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: buildAll's blog
 subtitle:
 description:
-author: John Doe
+author: Bill Zhao
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://buildAll.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -68,4 +68,6 @@ theme: landscape
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: https://github.com/buildAll/buildall.github.io.git
+  branch: master

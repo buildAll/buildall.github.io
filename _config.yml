@@ -3,19 +3,21 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
+title: 赵彪的博客
+subtitle: 把生命浪费在美好的代码上
 description:
-author: John Doe
+author: Zhao Biao
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+# url: https://buildall.github.io/
+url: codinghigh.cn
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
+
 
 # Directory
 source_dir: source
@@ -39,7 +41,7 @@ relative_link: false
 future: true
 highlight:
   enable: true
-  line_number: true
+  line_number: false
   auto_detect: true
   tab_replace:
 
@@ -63,9 +65,15 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: landscape
+
+plugins:
+   - hexo-local-image
+   - hexo-generator-cname
+
+theme: very-simple
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: https://github.com/buildAll/buildall.github.io.git

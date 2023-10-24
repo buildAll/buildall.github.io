@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<head>
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  
+  <title>作用域和闭包--读《你不知道的JavaScript》 | 把生命浪费在美好的代码上</title>
+  <link rel="shortcut icon" href="/img/favicon.png">
+  <meta name="description" content="本文是在看完《你不知道的JavaScript》这本书之后整理而成。本文中所有的代码可以在这里找到。如果你不想读下面的文字，可以直接clone代码并运行，然后结合代码和注释，试着去理解作用域和闭包的概念。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="作用域和闭包--读《你不知道的JavaScript》">
+<meta property="og:url" content="https://buildall.github.io/2016/04/26/scopeandclosure/index.html">
+<meta property="og:site_name" content="把生命浪费在美好的代码上">
+<meta property="og:description" content="本文是在看完《你不知道的JavaScript》这本书之后整理而成。本文中所有的代码可以在这里找到。如果你不想读下面的文字，可以直接clone代码并运行，然后结合代码和注释，试着去理解作用域和闭包的概念。">
+<meta property="og:locale">
+<meta property="og:image" content="https://buildall.github.io/images/javascript_logo/js.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/buildAll/JavaScript_Scope-Closure/master/scopechain.png">
+<meta property="article:published_time" content="2016-04-26T03:58:35.000Z">
+<meta property="article:modified_time" content="2023-10-24T14:35:12.029Z">
+<meta property="article:author" content="Zhao Biao">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://buildall.github.io/images/javascript_logo/js.jpg">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<script src="/js/image-preview.js" defer></script>
+
+  
+  
+<script src="/js/main.js" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+<html>
+
+<body>
+  
+  <div class="container">
+    <header class="user-select">
+  <div class="header-container-wrap">
+    <div class="header-container">
+      
+      
+      
+      <style>
+        .logo>* {
+          width:auto;height:4rem;
+        }
+      </style>
+      
+      <a href="/" class="logo">
+        <img data-src="/img/site-logo.png" / src=/img/site-logo.png>
+      </a>
+      
+      <nav>
+        
+        <div class="search" tabindex="-1">
+          <input class="search-input" placeholder="Search for articles" type="search" maxlength="64">
+          <div class="seach-icon-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12.4008 12.4008C14.744 10.0577 14.744 6.25871 12.4008 3.91556C10.0577 1.57242 6.25871 1.57242 3.91556 3.91556C1.57242 6.25871 1.57242 10.0577 3.91556 12.4008C6.25871 14.744 10.0577 14.744 12.4008 12.4008ZM12.4008 12.4008L15.5828 15.5828" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"></path>
+</svg>
+          </div>
+          <div class="search-history">
+            <div class="search-history-title">
+              <span>Search for History</span>
+              <span class="search-history-clear">Clear</span>
+            </div>
+            <div class="search-history-list"></div>
+          </div>
+          <div class="search-result"></div>
+          
+<script src="/js/search.js" path="&#x2F;search.json" defer></script>
+
+        </div>
+        
+
+        
+        
+        <ul class="nav-list">
+          
+          <li class="nav-list-item">
+            <a href="/">Home</a>
+          </li>
+          
+        </ul>
+        <div class="sidebar-nav" tabindex="-1">
+          <svg class="sidebar-nav-btn" viewBox="0 0 16 16" width="16" height="16">
+  <path d="M3,11.335h16M3,6h16M3,16.67h16" transform="translate(-3-3.335)" stroke="currentColor" stroke-width="2" />
+</svg>
+          <div class="mask" tabindex="-1"></div>
+          <ul class="nav-list">
+            
+            <li class="nav-list-item">
+              <a href="/">Home</a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+    <div class="main-wrap">
+      <main class="main-width">
+        
+        <h1 class="page-title">作用域和闭包--读《你不知道的JavaScript》</h1>
+        
+        <article class="article page">
+  <div class="article-info">
+    
+    <img data-src="/img/avatar.png" alt="avatar" class="avatar" src=/img/site-logo.png>
+    
+    <div class="article-meta">
+      <div class="author-name">Zhao Biao</div>
+      <div class="article-meta-list">
+        
+        <time datetime="2016-04-26 11:58:35" title="2016-04-26 11:58:35" class="time">
+          2016-04-26 11:58:35
+        </time>
+        
+        <div class="article-meta-item-wrap">
+          
+          <div class="article-meta-item">
+            <svg class="word-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" >
+  <path d="M10 4H30L40 14V42C40 43.1046 39.1046 44 38 44H10C8.89543 44 8 43.1046 8 42V6C8 4.89543 8.89543 4 10 4Z"></path>
+  <path d="M16.0083 20L19.0083 34L24.0083 24L29.0083 34L32.0083 20"></path>
+</svg>
+            <span>2.9k</span>
+          </div>
+          
+          
+          <div class="article-meta-item">
+            <svg class="time-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z" />
+  <path d="M24.0084 12.0001L24.0072 24.0089L32.4866 32.4883" />
+</svg>
+            <span>11min</span>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="article-content"><img data-src="/images/javascript_logo/js.jpg" class="" src=/img/site-logo.png>
+
+<p>本文是在看完《你不知道的JavaScript》这本书之后整理而成。<br>本文中所有的代码可以在<a target="_blank" rel="noopener" href="https://github.com/buildAll/JavaScript_Scope-Closure">这里</a>找到。如果你不想读下面的文字，可以直接clone代码并运行，然后结合代码和注释，试着去理解作用域和闭包的概念。</p>
+<h2 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h2><p>JavaScript采用词法作用域。所谓词法作用域就是代码书写完成之后，作用域随即确定，所写既所得。</p>
+<p>看下面的代码;</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> printSpace = <span class="built_in">require</span>(<span class="string">&#x27;./printspace&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> showmore = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> yoho = <span class="string">&quot;yoho!我在全局作用域&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">awfulSayYoho</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;*****一般情况*****&quot;</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(yoho);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">normalSayYoho</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;*****局部变量*****&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> yoho = <span class="string">&quot;yoho!我在函数作用域&quot;</span>;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(yoho);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">advanceSayYoho</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// var yoho;   // B行, 自动提升声明</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;*****自动提升*****&quot;</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(yoho); <span class="comment">// C行，打印的是B行的声明，既undefined</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (showmore) &#123;</span><br><span class="line">    <span class="keyword">var</span> yoho = <span class="string">&quot;yoho!我在函数作用域&quot;</span>; <span class="comment">// A行，声明yoho，并为其赋值。</span></span><br><span class="line">    <span class="comment">// yoho = &quot;yoho!我在函数作用域&quot;; 执行语句不提升，留在原地</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">sayYohoAgain</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(yoho);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">sayYohoAgain</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printSpace</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">awfulSayYoho</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">printSpace</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">normalSayYoho</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">printSpace</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">advanceSayYoho</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">printSpace</span>();</span><br></pre></td></tr></table></figure>
+
+
+<p>上面这些代码的运行结果如下:</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">*****一般情况*****</span><br><span class="line">yoho!我在全局作用域</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*****局部变量*****</span><br><span class="line">yoho!我在函数作用域</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*****自动提升*****</span><br><span class="line">undefined</span><br><span class="line">yoho!我在函数作用域</span><br></pre></td></tr></table></figure>
+
+<p>上面这段平淡无奇的代码，相信大多数JSer理解起来并不难。值得一提的是声明的自动提升。在advanceSayYoho函数里的A行，声明了变量yoho并为其赋值，既看上去一行代码做了两件事:声明且赋值。但是，在函数被调用时，JS引擎总是将A行这样的”声明且赋值”的语句拆分成声明和赋值两步执行，既</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span>  yoho = <span class="string">&quot;yoho!我在函数作用域&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+<p>被分成了：</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> yoho;</span><br><span class="line">yoho = <span class="string">&quot;yoho!我在函数作用域&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中声明语句</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> yoho;</span><br></pre></td></tr></table></figure>
+
+<p>这行被自动提升到函数体的顶部，既相当于自动提升到了advanceSayYoho函数的B行。</p>
+<p>而赋值语句</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">yoho = <span class="string">&quot;yoho!我在函数作用域&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>不会提升，留在原地</p>
+<p>由此便不难理解为什么C行打印的是undefined了。</p>
+<h2 id="原始数据类型和引用数据类型"><a href="#原始数据类型和引用数据类型" class="headerlink" title="原始数据类型和引用数据类型"></a>原始数据类型和引用数据类型</h2><p>在进一步讨论作用域及作用域对象的之前，先简单的说明一下JS里的“赋值”和”引用”。</p>
+<p>JS里有两大类数据类型: 原始数据类型和引用数据类型（及对象数据类型）。下面的代码试图说明这两者的区别:</p>
+<figure class="highlight stata">
+    <div class="code-block-header" lang="stata">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> printSpace = require(&#x27;./printspace&#x27;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 值传递</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="string">&quot;*****值传递*****&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> num = 10; <span class="comment">// num 持有了数字10</span></span><br><span class="line"><span class="keyword">var</span> a = num;  <span class="comment">//   a 持有了数字10</span></span><br><span class="line"><span class="keyword">var</span> b = num;  <span class="comment">//   b 持有了数字10</span></span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="string">&quot;------初始-----&quot;</span>);</span><br><span class="line">console.<span class="built_in">log</span>(num);</span><br><span class="line">console.<span class="built_in">log</span>(a);</span><br><span class="line">console.<span class="built_in">log</span>(b);</span><br><span class="line"></span><br><span class="line">num = 8; <span class="comment">// num 持有的数字变为了8</span></span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="string">&quot;------num值改变后-----&quot;</span>);</span><br><span class="line">console.<span class="built_in">log</span>(num);</span><br><span class="line">console.<span class="built_in">log</span>(a);</span><br><span class="line">console.<span class="built_in">log</span>(b);</span><br><span class="line"></span><br><span class="line">printSpace();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对象的引用</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="string">&quot;*****对象的引用*****&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> yoho = &#123;     <span class="comment">// yoho 引用了对象 &#123;value: “潮流”&#125;</span></span><br><span class="line">  value: <span class="string">&quot;潮流&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> kris = yoho; <span class="comment">// kris 引用了对象 &#123;value: “潮流”&#125;</span></span><br><span class="line"><span class="keyword">var</span> me = yoho;   <span class="comment">// me 引用了对象 &#123;value: “潮流”&#125;</span></span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="string">&quot;------初始----&quot;</span>);</span><br><span class="line">console.<span class="built_in">log</span>(yoho.value);</span><br><span class="line">console.<span class="built_in">log</span>(kris.value);</span><br><span class="line">console.<span class="built_in">log</span>(me.value);</span><br><span class="line"></span><br><span class="line">me.value = <span class="string">&quot;还是潮流&quot;</span>; <span class="comment">// A行， &quot;被me 引用的对象&quot;.value 发生了</span></span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="string">&quot;------me.value改变后-----&quot;</span>);</span><br><span class="line">console.<span class="built_in">log</span>(yoho.value);</span><br><span class="line">console.<span class="built_in">log</span>(kris.value);</span><br><span class="line">console.<span class="built_in">log</span>(me.value);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行node reference，可以看到:</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">*****值传递*****</span><br><span class="line">------初始-----</span><br><span class="line">10</span><br><span class="line">10</span><br><span class="line">10</span><br><span class="line">------num值改变后-----</span><br><span class="line">8</span><br><span class="line">10</span><br><span class="line">10</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*****对象的引用*****</span><br><span class="line">------初始----</span><br><span class="line">潮流</span><br><span class="line">潮流</span><br><span class="line">潮流</span><br><span class="line">------me.value改变后-----</span><br><span class="line">还是潮流</span><br><span class="line">还是潮流</span><br><span class="line">还是潮流</span><br></pre></td></tr></table></figure>
+
+<p>可能有些新JSer不太能理解的是：上面代码的A行只修改了me.value的值，为什么yoho.value和kris.value也发生了变化？</p>
+<p>其实上面代码中，yoho、me、kris这三个变量是等同的，他们都指向同一块内存空间，既对象 { value: “潮流” }所在的内存空间。也就是yoho、me、kris三个变量同时引用了对象{ value: “潮流” }。</p>
+<p>所以me.value、kris.value、yoho.value都是同一块内存空间，而那块内存里的值一开始的值是“潮流”, 然后在A行，这个值被改为了”还是潮流”。</p>
+<p>如果还是不能理解”引用”这个概念，建议可以去看看C语言里指针的概念。</p>
+<h2 id="变量的生命周期、作用域对象及作用域链"><a href="#变量的生命周期、作用域对象及作用域链" class="headerlink" title="变量的生命周期、作用域对象及作用域链"></a>变量的生命周期、作用域对象及作用域链</h2><p>请看下面的代码：</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="comment">// JS代码由此开始运行，创建了 globalScope = &#123;&#125;</span></span><br><span class="line"><span class="comment">// 紧接着JS引擎对整个代码内容进行检查，搜索出全局变量，并将他们的声明设置为globalScope的属性</span></span><br><span class="line"><span class="comment">// 既 globalScope = &#123;</span></span><br><span class="line"><span class="comment">//     yohobuy: yohobuy,</span></span><br><span class="line"><span class="comment">//     PRINTSPACE: PRINTSPACE,</span></span><br><span class="line"><span class="comment">//     sayYoho: sayYoho</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// globalScope.PRINTSPACE = require(&#x27;./printspace&#x27;);</span></span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">PRINTSPACE</span> = <span class="built_in">require</span>(<span class="string">&#x27;./printspace&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// globalScope.yohobuy = &quot;YOHO!buy&quot;;</span></span><br><span class="line"><span class="keyword">var</span> yohobuy = <span class="string">&quot;YOHO!buy&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// globalScope.sayYoho = function() &#123;......&#125;</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayYoho</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 函数开始执行，创建了scope = &#123;&#125;</span></span><br><span class="line">  <span class="comment">// 设置scope chain, 既 scope.parentScope = globalScope</span></span><br><span class="line">  <span class="comment">// 提升开始: scope.yoho = undefined;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> yoho = <span class="string">&quot;yoho!&quot;</span>; <span class="comment">// scope.yoho = &quot;yoho&quot; ， 此时scope = &#123;yoho: &quot;yoho&quot;&#125;</span></span><br><span class="line"></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(yoho);  <span class="comment">// 打印的是scope.yoho</span></span><br><span class="line"></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(yohobuy); <span class="comment">//打印的是scope.parentScope.yohobuy, 既scope.globalScope.yohobuy</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title function_">PRINTSPACE</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">sayYoho</span>();</span><br><span class="line"><span class="comment">// 函数调用完成，在函数调用过程中创建的scope对象此时没有被任何人引用，那么这个scope对象被自动回收</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">PRINTSPACE</span>();</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(yoho); <span class="comment">// 打印的是globalScope.yoho, 而globalScope上并没有定义yoho属性</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如你所料:</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">yoho!</span><br><span class="line">YOHO!buy</span><br><span class="line"></span><br><span class="line">/Users/bill/Documents/Work/closure/lifecycle.js:36</span><br><span class="line">console.log(yoho); // 打印的是globalScope.yoho, 而globalScope上并没有定义yoho属性</span><br><span class="line"></span><br><span class="line">ReferenceError: yoho is not defined</span><br><span class="line">    at Object.&lt;anonymous&gt; (/Users/bill/Documents/Work/closure/lifecycle.js:36:13)</span><br><span class="line">    at Module._compile (module.js:413:34)</span><br><span class="line">    at Object.Module._extensions..js (module.js:422:10)</span><br><span class="line">    at Module.load (module.js:357:32)</span><br><span class="line">    at Function.Module._load (module.js:314:12)</span><br><span class="line">    at Function.Module.runMain (module.js:447:10)</span><br><span class="line">    at startup (node.js:140:18)</span><br><span class="line">    at node.js:1001:3</span><br></pre></td></tr></table></figure>
+
+<p>依然是一段有些无聊的代码，但愿你看到他们的时候不要打呵欠或是关掉这个网页:)))让我们来看看这里发生的一些有趣的事情:</p>
+<ol>
+<li>JS代码只要被运行，便会在一开始的时候就创建一个全局的作用域对象，在这里为了方便起见，我把它称为globalScope。</li>
+<li>globalScope对象创建完成后，立刻去全局范围内搜索全局变量，并将变量的名字设为自己属性名，同时引用相对应的变量。</li>
+<li>sayYoho函数被调用时，创建了它自己的作用域对象，我把它称为scope。</li>
+<li>scope对象会设置自己的父级作用域对象，既当前函数作用域的上一个作用域，在这里就是globalScope。</li>
+<li>紧接着, scope对象开始在函数作用域内部搜索局部变量，并将其设置为自己的属性。值得一提的是，这步只完成了属性名的设置，并未对属性赋值。(这一步既是上文提到的所谓变量的提升)</li>
+<li>函数运行结束后，如果(通常就是这样)scope对象没有被引用，则其会被JS引擎回收。*(反之，如果函数运行结束后，还有变量在引用scope对象，则该对象不会被回收)*</li>
+</ol>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>很高兴你能看到这里。我们终于来到了闭包的概念。可是别激动，我还是只能提供一段最稀松平常的闭包代码，你一定看过类似下面这样的代码：</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="comment">// 此处有globalScope 对象； .... 不再赘述</span></span><br><span class="line"><span class="keyword">var</span> printSpace = <span class="built_in">require</span>(<span class="string">&#x27;./printspace&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">outerFunc</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 函数被调用时，产生了新的outerScope对象, 既outerScope = &#123;&#125;</span></span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  <span class="comment">// 设置scope chain，既 outerScope.parentScope = globalScope;</span></span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  <span class="comment">// 提升开始： outerScope.counter = undefined;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// outerScope.counter = 0;</span></span><br><span class="line">  <span class="keyword">var</span> counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 函数被调用的话，产生新的insideScope = &#123;&#125;</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// 设置scope chain，既 insideScope.parentScope = outerScope;</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// 此时完整的scope chain 可以想成这样的 insideScope.parentScope.parentScope</span></span><br><span class="line">    <span class="comment">// 既 insideScope.outerScope.globalScope</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// 函数内部没有 var 定义的变量，所以insideScope没有变化</span></span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(counter); <span class="comment">// 此处需要打印的是 insideScope.outerScope.counter。既outerScope对象被引用了！！</span></span><br><span class="line">    counter += <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> insideFunc = <span class="title function_">outerFunc</span>(); <span class="comment">// 因为outerFunc的调用，内部函数被return出来</span></span><br><span class="line">                              <span class="comment">// return 出来的内部函数被insideFunc引用</span></span><br><span class="line">                              <span class="comment">// 由于insideFunc 引用的函数内部引用了 outerScope上的属性counter,</span></span><br><span class="line">                              <span class="comment">// 所以outerScope对象不会被回收，从效果上来讲就是局部变量counter一直存活了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 不妨假想成下面的代码</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * var insideFunc = function() &#123;</span></span><br><span class="line"><span class="comment"> *   console.log(counter);</span></span><br><span class="line"><span class="comment"> *   counter += 1;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 其中的counter变量来自outerFunc被调用时所创建的作用域对象</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="title function_">printSpace</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">insideFunc</span>();</span><br><span class="line"><span class="title function_">insideFunc</span>();</span><br><span class="line"><span class="title function_">insideFunc</span>();</span><br><span class="line"><span class="title function_">insideFunc</span>();</span><br><span class="line"><span class="title function_">insideFunc</span>();</span><br><span class="line"><span class="title function_">insideFunc</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">printSpace</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> anotherInsideFunc = <span class="title function_">outerFunc</span>(); <span class="comment">//A行， outerFunc又被调用一次，产生了新的scope chain</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">anotherInsideFunc</span>();</span><br><span class="line"><span class="title function_">anotherInsideFunc</span>();</span><br><span class="line"><span class="title function_">anotherInsideFunc</span>();</span><br><span class="line"><span class="title function_">anotherInsideFunc</span>();</span><br><span class="line"></span><br><span class="line"><span class="title function_">printSpace</span>();</span><br></pre></td></tr></table></figure>
+
+<p>运行一下node closure，看到下面的结果：</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+
+<p>从结果上来讲，这段代码只是达到了将counter这个一般情况下会随着函数运行结束而被销毁的局部变量保留住了的效果。到底是怎么做到这点的呢，简单来说，过程是这样的:</p>
+<ol>
+<li>outerFunc被调用时创造了作用域对象，outerScope，以及由这个outerScope对象做为起点的一条作用域链</li>
+<li>outerFunc运行到最后时return了一个匿名函数, 而这个匿名函数使用(既引用)了outerScope对象上的属性counter。</li>
+<li>此时如果没有其他变量引用return的匿名函数，那么将不会有特别的事情发生，outerScope对象会被回收。</li>
+<li>但是，被return的匿名函数又被innerFunc这个变量引用，所以为了保证其在随后的代码中能被顺利被执行，必须让innerFunc引用的函数内的所有变量都有意义，既counter必须被保留，所以相当于outerScope对象被引用了, 那么outerScope就不会被释放。</li>
+<li>A行中，outerFunc又被调用了一次，则其又产生了一个新的outerScope对象，所以后面anotherInsideFunc执行时，counter又从0开始。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>为了理解闭包，需要想通下面几点:</p>
+<ol>
+<li>函数运行时会创建作用域对象及以此对象为起点的作用域链。</li>
+<li>借由函数一等公民的身份，JS函数内部的函数可以被传递给别的变量，既内部函数可以被引用。</li>
+<li>一旦内部函数被引用，并且该内部函数使用了自身作用域链上某个父级作用域对象上的属性，那么该父级作用域对象即使在外部函数运行结束后扔不会被回收。</li>
+<li>外部函数每被调用一次，都会创建新的作用域链。</li>
+<li>作用域链是树形的，下面这张简陋的图也许可以帮助你理解这一概念。</li>
+</ol>
+<p><img data-src="https://raw.githubusercontent.com/buildAll/JavaScript_Scope-Closure/master/scopechain.png" alt="scope chain 示意图" src=/img/site-logo.png></p>
+<p>要产生闭包，关键就是:</p>
+<ol>
+<li>至少有一个外部函数，外部函数内至少有一个内部函数。</li>
+<li>外部函数一定要运行至少一次，以此产生作用域对象并将内部函数传递给函数外部变量。</li>
+</ol>
+<h3 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h3><p>对本文有任何问题和建议可以在<a target="_blank" rel="noopener" href="https://github.com/buildAll/JavaScript_Scope-Closure/issues/1">这里</a>一起讨论。</p>
+<h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL; DR;"></a>TL; DR;</h3><p>按照《JavaScript权威指南》里的说法，闭包并不是JS特有的，它是一种计算机术语，在计算机科学中，将函数和作用域联系起来的这种机制就是闭包，所以理论上所有的JS函数都可以被认为是闭包。但是我们平时说的闭包，更多的是指的外部函数运行时产生的作用域对象被保留的现象。</p>
+<p>《你不知道的JavaScript》这本书在github上有英文的<a target="_blank" rel="noopener" href="https://github.com/getify/You-Dont-Know-JS">开源版本</a>，任何人都可以为其贡献内容，该项目已经有接近30000star。目前其中的部分章节被翻译并出版成纸质书籍，感兴趣的话可以<a target="_blank" rel="noopener" href="http://www.amazon.cn/%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84JavaScript-%E7%BE%8E-%E8%BE%9B%E6%99%AE%E6%A3%AE/dp/B0153179VI?ie=UTF8&keywords=%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84JavaScript&qid=1461847068&ref_=sr_1_1&sr=8-1">去看看</a>。</p>
+</div>
+  
+  <div class="article-end">
+    
+    <div class="article-meta">
+      
+      <div class="article-categories">
+        <div class="article-categories-name">Categories: </div>
+        
+        <a class="article-categories-item" href="/categories/JavaScript/">
+          JavaScript
+        </a>
+        
+      </div>
+      
+      
+      <div class="article-tags">
+        <div class="article-tags-name">Tags: </div>
+        
+        <a class="article-tags-item" href="/tags/JavaScript/">
+          JavaScript
+        </a>
+        
+      </div>
+      
+    </div>
+    
+    
+
+<div class="post-copyright">
+  <div class="post-copyright-icon"><svg class="copyright-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm117.134 346.753c-1.592 1.867-39.776 45.731-109.851 45.731-84.692 0-144.484-63.26-144.484-145.567 0-81.303 62.004-143.401 143.762-143.401 66.957 0 101.965 37.315 103.422 38.904a12 12 0 0 1 1.238 14.623l-22.38 34.655c-4.049 6.267-12.774 7.351-18.234 2.295-.233-.214-26.529-23.88-61.88-23.88-46.116 0-73.916 33.575-73.916 76.082 0 39.602 25.514 79.692 74.277 79.692 38.697 0 65.28-28.338 65.544-28.625 5.132-5.565 14.059-5.033 18.508 1.053l24.547 33.572a12.001 12.001 0 0 1-.553 14.866z" />
+</svg></div>
+  <div class="post-copyright-author">
+    <span class="post-copyright-meta">Authorship: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io">Zhao Biao</a>
+    </span>
+  </div>
+  <div class="post-copyright-type">
+    <span class="post-copyright-meta">Article Link: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io/2016/04/26/scopeandclosure/">https://buildall.github.io/2016/04/26/scopeandclosure/</a>
+    </span>
+  </div>
+  <div class="post-copyright-notice">
+    <span class="post-copyright-meta">Copyright: </span>
+    <span class="post-copyright-info">All posts on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> license unless otherwise stated. Please cite <a href="https://buildall.github.io" target="_blank">把生命浪费在美好的代码上</a> !</span>
+  </div>
+</div>
+
+  </div>
+</article>
+      </main>
+      <aside tabindex="-1">
+  
+  <div class="sidebar-block sidebar-sticky toc-wrap" tabindex="-1">
+    <div class="toc-btn">
+      <svg class="toc-btn-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+</svg>
+    </div>
+    <div class="sidebar-title toc-title">Catalog</div>
+    <div class="sidebar-body">
+      <ul class="toc-list">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%8D%E6%B3%95%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">1.</span> <span class="toc-text">词法作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%A7%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">原始数据类型和引用数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%AF%B9%E8%B1%A1%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE"><span class="toc-number">3.</span> <span class="toc-text">变量的生命周期、作用域对象及作用域链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85"><span class="toc-number">4.</span> <span class="toc-text">闭包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E7%B3%BB%E6%88%91"><span class="toc-number">5.1.</span> <span class="toc-text">联系我</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TL-DR"><span class="toc-number">5.2.</span> <span class="toc-text">TL; DR;</span></a></li></ol></li></ol>
+      </ul>
+    </div>
+  </div>
+  
+</aside>
+    </div>
+    
+    
+
+<footer class="footer main-width">
+  <div class="copyright">
+    &copy; 2020 - 2023
+    Zhao Biao
+  </div>
+  <div class="framework-info">
+    <span>Framework</span>
+    <a href="https://hexo.io" target="_blank">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme</span>
+    <a href="https://github.com/Lete114/hexo-theme-MengD" target="_blank">MengD</a>
+  </div>
+  
+  <div class="custom">A clean and lightweight Hexo theme</div>
+  
+</footer>
+  </div>
+  
+</body>
+
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<head>
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  
+  <title>现在开始用vim开发Web前端吧 | 把生命浪费在美好的代码上</title>
+  <link rel="shortcut icon" href="/img/favicon.png">
+  <meta name="description" content="如果你是一名web前端工程师并且没有vim使用经验的话，那么这篇博文就是为你准备的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="现在开始用vim开发Web前端吧">
+<meta property="og:url" content="https://buildall.github.io/2015/12/09/frontendvim/index.html">
+<meta property="og:site_name" content="把生命浪费在美好的代码上">
+<meta property="og:description" content="如果你是一名web前端工程师并且没有vim使用经验的话，那么这篇博文就是为你准备的。">
+<meta property="og:locale">
+<meta property="og:image" content="https://buildall.github.io/images/vim-logo.png">
+<meta property="og:image" content="https://buildall.github.io/2015/12/09/frontendvim/images/frontendvim/vim-mode.jpg">
+<meta property="og:image" content="https://buildall.github.io/images/frontendvim/vim-mode.jpg">
+<meta property="article:published_time" content="2015-12-09T02:39:43.000Z">
+<meta property="article:modified_time" content="2023-10-24T14:32:44.362Z">
+<meta property="article:author" content="Zhao Biao">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="front-end tool">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://buildall.github.io/images/vim-logo.png">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<script src="/js/image-preview.js" defer></script>
+
+  
+  
+<script src="/js/main.js" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+<html>
+
+<body>
+  
+  <div class="container">
+    <header class="user-select">
+  <div class="header-container-wrap">
+    <div class="header-container">
+      
+      
+      
+      <style>
+        .logo>* {
+          width:auto;height:4rem;
+        }
+      </style>
+      
+      <a href="/" class="logo">
+        <img data-src="/img/site-logo.png" / src=/img/site-logo.png>
+      </a>
+      
+      <nav>
+        
+        <div class="search" tabindex="-1">
+          <input class="search-input" placeholder="Search for articles" type="search" maxlength="64">
+          <div class="seach-icon-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12.4008 12.4008C14.744 10.0577 14.744 6.25871 12.4008 3.91556C10.0577 1.57242 6.25871 1.57242 3.91556 3.91556C1.57242 6.25871 1.57242 10.0577 3.91556 12.4008C6.25871 14.744 10.0577 14.744 12.4008 12.4008ZM12.4008 12.4008L15.5828 15.5828" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"></path>
+</svg>
+          </div>
+          <div class="search-history">
+            <div class="search-history-title">
+              <span>Search for History</span>
+              <span class="search-history-clear">Clear</span>
+            </div>
+            <div class="search-history-list"></div>
+          </div>
+          <div class="search-result"></div>
+          
+<script src="/js/search.js" path="&#x2F;search.json" defer></script>
+
+        </div>
+        
+
+        
+        
+        <ul class="nav-list">
+          
+          <li class="nav-list-item">
+            <a href="/">Home</a>
+          </li>
+          
+        </ul>
+        <div class="sidebar-nav" tabindex="-1">
+          <svg class="sidebar-nav-btn" viewBox="0 0 16 16" width="16" height="16">
+  <path d="M3,11.335h16M3,6h16M3,16.67h16" transform="translate(-3-3.335)" stroke="currentColor" stroke-width="2" />
+</svg>
+          <div class="mask" tabindex="-1"></div>
+          <ul class="nav-list">
+            
+            <li class="nav-list-item">
+              <a href="/">Home</a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+    <div class="main-wrap">
+      <main class="main-width">
+        
+        <h1 class="page-title">现在开始用vim开发Web前端吧</h1>
+        
+        <article class="article page">
+  <div class="article-info">
+    
+    <img data-src="/img/avatar.png" alt="avatar" class="avatar" src=/img/site-logo.png>
+    
+    <div class="article-meta">
+      <div class="author-name">Zhao Biao</div>
+      <div class="article-meta-list">
+        
+        <time datetime="2015-12-09 10:39:43" title="2015-12-09 10:39:43" class="time">
+          2015-12-09 10:39:43
+        </time>
+        
+        <div class="article-meta-item-wrap">
+          
+          <div class="article-meta-item">
+            <svg class="word-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" >
+  <path d="M10 4H30L40 14V42C40 43.1046 39.1046 44 38 44H10C8.89543 44 8 43.1046 8 42V6C8 4.89543 8.89543 4 10 4Z"></path>
+  <path d="M16.0083 20L19.0083 34L24.0083 24L29.0083 34L32.0083 20"></path>
+</svg>
+            <span>2.6k</span>
+          </div>
+          
+          
+          <div class="article-meta-item">
+            <svg class="time-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z" />
+  <path d="M24.0084 12.0001L24.0072 24.0089L32.4866 32.4883" />
+</svg>
+            <span>9min</span>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="article-content"><img data-src="/images/vim-logo.png" class="" src=/img/site-logo.png>
+
+<p>如果你是一名web前端工程师并且没有vim使用经验的话，那么这篇博文就是为你准备的。</p>
+<h2 id="vim是什么"><a href="#vim是什么" class="headerlink" title="vim是什么"></a>vim是什么</h2><p>vim是一款文本编辑器应用程序。和一般的编辑器程序不同，vim有以下特点:</p>
+<ol>
+<li>运行在终端,而非桌面</li>
+<li>不需要使用鼠标进行操作，所有操作都通过键盘实现</li>
+<li>Linux系统默认安装这款编辑器</li>
+</ol>
+<h2 id="为什么用vim"><a href="#为什么用vim" class="headerlink" title="为什么用vim"></a>为什么用vim</h2><p>前端最流行的编辑器应该是sublime text和web storm，这两个应用程序确实也非常好用，能有效的提高前端的开发效率。那为什么我们还要使用vim来做前端开发呢，原因如下:</p>
+<ol>
+<li>vim的命令系统使得开发者可以在编码过程中无需操作鼠标，两只手可以全程专注在敲击键盘上，这样无论对于提升开发效率还是开发者编码的体验都会有帮助。</li>
+<li>vim界面十分简洁，并且能够自由、灵活的打开、切换多窗口。</li>
+<li>vim和sublime一样，有着强大的插件系统，类似zen coding，多行编辑，语法检查等功能都可以在vim上实现</li>
+<li>Web前端开发人员难免需要上服务器查看或修改代码，而所有的Linux服务器上都自带vim，此时如果这名前端会使用vim的话必然对工作有很大帮助。</li>
+</ol>
+<h2 id="vim相关的概念"><a href="#vim相关的概念" class="headerlink" title="vim相关的概念"></a>vim相关的概念</h2><h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><p>vim中的操作都是通过命令来实现的，比如移动光标、复制、粘贴等，都有对应的命令。<br>下文会介绍一些常用的命令。</p>
+<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>vim的部分命令有对应的模式，如果要使用这些命令，首先要进入命令所属的模式。</p>
+<p>各个模式的关系如下:</p>
+<!--<img data-src="images/frontendvim/vim-mode.jpg" alt="vim中的模式" src=/img/site-logo.png>-->
+
+<img data-src="/images/frontendvim/vim-mode.jpg" class="" src=/img/site-logo.png>
+
+<p>对上图的解释</p>
+<ol>
+<li>默认模式处于最顶层，在任意模式下，按ESC进入默认模式</li>
+<li>VISUAL, VISUAL BLOCK和命令行模式之间可以通过命令互相切换</li>
+</ol>
+<h2 id="安装vim"><a href="#安装vim" class="headerlink" title="安装vim"></a>安装vim</h2><p>心动不如行动，先安装vim吧。对于安装，网上有很多教程，如：</p>
+<p><a target="_blank" rel="noopener" href="http://linux.chinaunix.net/techdoc/install/2009/04/20/1108200.shtml">Windows中的vim安装教程</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/lwbqqyumidi/archive/2012/08/22/2651337.html">Linux中的vim安装教程</a></p>
+<h2 id="vim插件管理工具"><a href="#vim插件管理工具" class="headerlink" title="vim插件管理工具"></a>vim插件管理工具</h2><p>上面提到vim有很多插件，所以我们需要一个插件管理工具，我平时使用的是<a target="_blank" rel="noopener" href="https://github.com/tpope/vim-pathogen">vim-pathogen</a>, 用了这个工具后，就可以轻松的安装各种插件了。</p>
+<p>pathogen安装插件的通用步骤:</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">cd ~/.vim/bundle/</span><br><span class="line">sudo git clone &lt;所要安装插件的github代码库url&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>删除插件的方法:</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">cd ~/.vim/bundle/</span><br><span class="line">sudo rm -rf &lt;需要删除的插件文件夹&gt;</span><br><span class="line">或</span><br><span class="line">sudo rm &lt;需要删除的插件文件名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>就是这么简单。</p>
+<h2 id="vim配置文件-vimrc"><a href="#vim配置文件-vimrc" class="headerlink" title="vim配置文件.vimrc"></a>vim配置文件.vimrc</h2><p>vim本身有一些配置项目，这些配置都写在~&#x2F;.vimrc这个文件里，通过<span style="background-color:#d0d0d0">vim ~&#x2F;.vimrc</span>可以查看或者编辑这个文件。</p>
+<h2 id="前端常用插件"><a href="#前端常用插件" class="headerlink" title="前端常用插件"></a>前端常用插件</h2><p>以下是我平时前端开发中用到的插件：<br><a target="_blank" rel="noopener" href="https://github.com/scrooloose/nerdtree">NerdTree</a>。必装插件，实现树状文件查找。<br><a target="_blank" rel="noopener" href="https://github.com/Valloric/YouCompleteMe">YouCompleteMe</a>。必备插件，代码自动补齐。<br><a target="_blank" rel="noopener" href="https://github.com/mattn/emmet-vim">emmet-vim</a>。必备插件，zen-coding。<br><a target="_blank" rel="noopener" href="https://github.com/terryma/vim-multiple-cursors">vim-multiple-cursors</a>。同时多行编辑。<br><a target="_blank" rel="noopener" href="https://github.com/Yggdroot/indentLine">indentLine</a>。显示代码缩进。<br><a target="_blank" rel="noopener" href="https://github.com/scrooloose/syntastic">syntastic</a>。语法检查。<br><a target="_blank" rel="noopener" href="https://github.com/othree/javascript-libraries-syntax.vim">javascript-libraries-syntax.vim</a>。JS代码高亮插件。<br><a target="_blank" rel="noopener" href="https://github.com/jelera/vim-javascript-syntax">vim-javascript-syntax</a>。代码折叠。<br><a target="_blank" rel="noopener" href="https://github.com/ternjs/tern_for_vim">tern_for_vim</a>。快速跳转到变量&#x2F;函数定义的地方。<br><a target="_blank" rel="noopener" href="https://github.com/vim-scripts/JavaScript-Indent">JavaScript-Indent</a>。代码缩进。</p>
+<h2 id="开始使用vim"><a href="#开始使用vim" class="headerlink" title="开始使用vim"></a>开始使用vim</h2><p>在命令行中通过输入<span style="background-color:#d0d0d0">vim  &lt;文件名&gt; </span>开始编辑文件。 如要打开index.html，则输入 <span style="background-color:#d0d0d0">vim index.html </span>。</p>
+<p>vim打开文件后，不要急着按键，或者试图通过鼠标来做任何操作，所有的操作都是通过键盘输入来实现的。</p>
+<h3 id="以下所有命令如无特殊说明，都是按顺序输入，-如要输入命令-ctrl-w-l-则先按ctrl-然后松开ctrl，再按w，再松开w，再按l，再松开l。其中任何一个按键都不可以按住不放，整个输入过程自然连贯即可。"><a href="#以下所有命令如无特殊说明，都是按顺序输入，-如要输入命令-ctrl-w-l-则先按ctrl-然后松开ctrl，再按w，再松开w，再按l，再松开l。其中任何一个按键都不可以按住不放，整个输入过程自然连贯即可。" class="headerlink" title="以下所有命令如无特殊说明，都是按顺序输入， 如要输入命令 ctrl w l, 则先按ctrl, 然后松开ctrl，再按w，再松开w，再按l，再松开l。其中任何一个按键都不可以按住不放，整个输入过程自然连贯即可。"></a><em>以下所有命令如无特殊说明，都是按顺序输入， 如要输入命令 ctrl w l, 则先按ctrl, 然后松开ctrl，再按w，再松开w，再按l，再松开l。其中任何一个按键都不可以按住不放，整个输入过程自然连贯即可。</em></h3><h3 id="vim中的命令都是大小写敏感的，所以需要注意各个命令的大小写。"><a href="#vim中的命令都是大小写敏感的，所以需要注意各个命令的大小写。" class="headerlink" title="vim中的命令都是大小写敏感的，所以需要注意各个命令的大小写。"></a><em>vim中的命令都是大小写敏感的，所以需要注意各个命令的大小写。</em></h3><h3 id="默认模式"><a href="#默认模式" class="headerlink" title="默认模式"></a>默认模式</h3><p>vim打开文件后默认直接进入该模式。</p>
+<p>进入默认模式的命令: ESC</p>
+<h4 id="移动光标"><a href="#移动光标" class="headerlink" title="移动光标"></a>移动光标</h4><p>vim中光标的的移动是通过按键实现的。</p>
+<h4 id="一般的移动："><a href="#一般的移动：" class="headerlink" title="一般的移动："></a>一般的移动：</h4><figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">上移光标 k</span><br><span class="line">下移光标 j</span><br><span class="line">左移光标 h</span><br><span class="line">右移光标 l</span><br></pre></td></tr></table></figure>
+
+<h4 id="快速移动："><a href="#快速移动：" class="headerlink" title="快速移动："></a>快速移动：</h4><figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">直接移动到当前所在行的头部 0 (数字零)</span><br><span class="line">直接移动到当前所在行的尾部 $</span><br><span class="line">光标跳转到目标行 数字 gg  ，如跳到第74行,则输入 74gg</span><br><span class="line">光标跳转到文件头部 gg</span><br><span class="line">光标跳转到文件尾部 G</span><br><span class="line">跳转到上一个编辑处 ctrl o</span><br><span class="line">跳转到下一个编辑处 ctrl i</span><br><span class="line"></span><br><span class="line">跳转到行内某个字母(行内查找)  f 所要查找的内容  ，如跳到当前光标所在行的a字母所在处: f a</span><br><span class="line">然后按;(分号)跳转到下一个a，按,(逗号)跳转到上一个a</span><br><span class="line"></span><br><span class="line">跳到下一个单词的开头 w</span><br><span class="line">跳到前一个单词的开头 b</span><br></pre></td></tr></table></figure>
+
+<h4 id="窗口大小调整命令-只在打开多个窗口时生效"><a href="#窗口大小调整命令-只在打开多个窗口时生效" class="headerlink" title="窗口大小调整命令(只在打开多个窗口时生效)"></a>窗口大小调整命令(只在打开多个窗口时生效)</h4><figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">增加窗口宽度 ctrl w &gt; 或者ctrl w 数字 &gt; 。加入数字后可以快速增加宽度</span><br><span class="line">减小窗口宽度 ctrl w &lt; 或者ctrl w 数字 &lt; 。加入数字后可以快速减小宽度</span><br><span class="line">增加窗口高度 ctrl w + 或者ctrl w 数字 + 。加入数字后可以快速增加高度</span><br><span class="line">减小窗口高度 ctrl w - 或者ctrl w 数字 - 。加入数字后可以快速增加高度</span><br><span class="line"></span><br><span class="line">跳转到上窗口 ctrl w k</span><br><span class="line">跳转到下窗口 ctrl w j</span><br><span class="line">跳转到左窗口 ctrl w h</span><br><span class="line">跳转到右窗口 ctrl w l</span><br></pre></td></tr></table></figure>
+
+<h4 id="普通命令"><a href="#普通命令" class="headerlink" title="普通命令"></a>普通命令</h4><figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">查找 / 需要查找的内容 回车</span><br><span class="line">例如要查找单词hello，则输入/hello ,再按回车键</span><br><span class="line"></span><br><span class="line">查找当前光标所在位置的单词 gd</span><br><span class="line"></span><br><span class="line">在查找到的结果中快速移动光标:</span><br><span class="line"></span><br><span class="line">上移 n</span><br><span class="line">下移 N</span><br><span class="line"></span><br><span class="line">取消查找内容高亮 :noh</span><br><span class="line"></span><br><span class="line">保存 :w</span><br><span class="line">退出 :q</span><br><span class="line">保存并退出 :wq</span><br><span class="line">强制退出 :q!</span><br><span class="line"></span><br><span class="line">复制当前光标所在行 yy</span><br><span class="line">剪切当前光标所在行 dd</span><br><span class="line">剪切多行 数字 dd （数字为需要剪切的行数）</span><br><span class="line">复制当前光标选中的字符 y</span><br><span class="line">剪切当前光标选中的字符 x</span><br><span class="line">剪并进入INSERT模式 s</span><br><span class="line"></span><br><span class="line">粘贴 p</span><br><span class="line">undo u</span><br><span class="line">re-undo ctrl r</span><br><span class="line"></span><br><span class="line">常规删除 &quot;_d</span><br><span class="line">常规复制 &quot;+y</span><br><span class="line">常规粘贴 command v(MAC OS) 或者 ctrl v(Windows系统)</span><br><span class="line"></span><br><span class="line">替换光标当前位置字符 r 然后输入要替换的字母。 例如，要替换&quot;hello world&quot;中的d为o，则先将光标移动到d，然后按r，然后再o</span><br></pre></td></tr></table></figure>
+
+<p>需要解释的是:</p>
+<ol>
+<li>yy和y复制是指的yank，yank所复制的内容只能通过p粘贴，而上面的常规复制则可以将vim里的内容复制并通过ctrl&#x2F;command v 复制到别处。</li>
+<li>vim里除了上面的常规删除以外并没有原生的快速删除的命令(不过，你可以自定义命令)，像x,dd等命令都是自带了yank。如你想删除”hello world”里的d，光标移到d，再按x，然后你再按p的话就粘贴了d。</li>
+<li>常规删除的内容不可以通过p粘贴，只能通过常规粘贴命令进行粘贴。</li>
+</ol>
+<h3 id="INSERT模式"><a href="#INSERT模式" class="headerlink" title="INSERT模式"></a>INSERT模式</h3><p>以下任意命令都可以进入编辑模式。</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">在光标当前位置输入 i</span><br><span class="line">在光标当前位置的下一格输入 a</span><br><span class="line">在光标当前位置所在行的开头开始输入 o</span><br><span class="line">在光标当前位置所在行的下一行开始输入 o</span><br><span class="line">在光标当前位置所在行的上一行开始输入 O</span><br></pre></td></tr></table></figure>
+
+<p>进入编辑模式后，vim左下角出现 – INSERT –，此时可以像在普通编辑器里一样开始写代码了。因为键盘输入直接被写在了当前的文件里，所以vim命令此刻都“失效”了。</p>
+<p>退出编辑模式的命令 ESC</p>
+<h3 id="VISUAL模式"><a href="#VISUAL模式" class="headerlink" title="VISUAL模式"></a>VISUAL模式</h3><p>进入该模式的命令 v<br>退出该模式的命令 ESC<br>进入编辑模式后，vim左下角出现 – VISUAL –，一般在需要选择文本的时候进入这个模式。</p>
+<p>在VISUAL模式下移动光标的命令和普通模式下是一样的，区别是光标移动时会选中移动路径上的文本。</p>
+<p>选中后按y复制，按x或者d剪切，</p>
+<p>VISUAL模式下一次性替换整块文本:</p>
+<ol>
+<li>选中并yank复制(按键y)马上要用来替换的内容</li>
+<li>移动光标选中需要被替换的文本</li>
+<li>ctrl r</li>
+<li>p</li>
+</ol>
+<h3 id="VISUAL-BLOCK模式"><a href="#VISUAL-BLOCK模式" class="headerlink" title="VISUAL BLOCK模式"></a>VISUAL BLOCK模式</h3><p>进入该模式的命令 ctrl v<br>退出该模式的命令 ESC</p>
+<p>该模式常常用于快速注释代码，步骤如下</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">1. 光标移动到需要注释的代码的第一行的开头</span><br><span class="line">2. ctrl v</span><br><span class="line">3. j命令下移至需要注释代码的最后一行</span><br><span class="line">4. I</span><br><span class="line">5. 输入//</span><br><span class="line">6. ESC</span><br></pre></td></tr></table></figure>
+
+<p>注意，第六步需要过n秒才会生效</p>
+<p>快速缩进多行代码</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">1. 光标移动到需要缩进的代码的第一行的开头</span><br><span class="line">2. ctrl v</span><br><span class="line">3. j命令下移至需要缩进代码的最后一行</span><br><span class="line">4. I</span><br><span class="line">5. 按空格缩进代码</span><br><span class="line">6. ESC</span><br></pre></td></tr></table></figure>
+
+<p>注意，第六步需要过n秒才会生效</p>
+<h3 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h3><p>进入该模式的命令  :(冒号)<br>退出该模式的命令 ESC</p>
+<p>该模式下常用的命令:</p>
+<figure class="highlight xml">
+    <div class="code-block-header" lang="xml">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">在竖直方向打开新窗口 vsp <span class="tag">&lt;<span class="name">所要打开的文件路径</span>&gt;</span></span><br><span class="line">在水平方向打开新窗口 sp  <span class="tag">&lt;<span class="name">所要打开的文件路径</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="NerdTree"><a href="#NerdTree" class="headerlink" title="NerdTree"></a>NerdTree</h2><p>NerdTree的使用小窍门:</p>
+<ol>
+<li>o命令打开文件后可以 ctrl o回到NerdTree</li>
+<li>t命令打开新tab后，可以按gt切换到下一个tab，按gT切换到前一个tab</li>
+<li>VISUAL模式下按:(冒号)vsp 可以打开一个较窄的窗口，这样大小的窗口用来显示NerdTree比较合适。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>vim作为一款经典的老派编辑器能够存在这么多年，一定有它存在的理由。刚接触时可能会有一些不适应，但是如果能够坚持使用，其实并不需要多久，就能快速高效的使用vim编程了。希望本文能带你进入vim的世界。</p>
+<p>关于vim，如果你有任何问题可以来<a target="_blank" rel="noopener" href="https://github.com/buildAll/buildall.github.io/issues/1">这里</a>一起讨论。</p>
+<script>
+    function removeImgBorder() {
+        var imgs = document.getElementsByTagName('img');
+        [].forEach.call(imgs, function(img, idx) {
+            img.parentNode.style.borderBottom = 'none';
+        });
+    }
+    window.onload = removeImgBorder;
+</script>
+
+
+
+
+
+
+</div>
+  
+  <div class="article-end">
+    
+    <div class="article-meta">
+      
+      <div class="article-categories">
+        <div class="article-categories-name">Categories: </div>
+        
+        <a class="article-categories-item" href="/categories/Tools/">
+          Tools
+        </a>
+        
+        <a class="article-categories-item" href="/categories/Tools/vim/">
+          vim
+        </a>
+        
+      </div>
+      
+      
+      <div class="article-tags">
+        <div class="article-tags-name">Tags: </div>
+        
+        <a class="article-tags-item" href="/tags/vim/">
+          vim
+        </a>
+        
+        <a class="article-tags-item" href="/tags/front-end-tool/">
+          front-end tool
+        </a>
+        
+      </div>
+      
+    </div>
+    
+    
+
+<div class="post-copyright">
+  <div class="post-copyright-icon"><svg class="copyright-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm117.134 346.753c-1.592 1.867-39.776 45.731-109.851 45.731-84.692 0-144.484-63.26-144.484-145.567 0-81.303 62.004-143.401 143.762-143.401 66.957 0 101.965 37.315 103.422 38.904a12 12 0 0 1 1.238 14.623l-22.38 34.655c-4.049 6.267-12.774 7.351-18.234 2.295-.233-.214-26.529-23.88-61.88-23.88-46.116 0-73.916 33.575-73.916 76.082 0 39.602 25.514 79.692 74.277 79.692 38.697 0 65.28-28.338 65.544-28.625 5.132-5.565 14.059-5.033 18.508 1.053l24.547 33.572a12.001 12.001 0 0 1-.553 14.866z" />
+</svg></div>
+  <div class="post-copyright-author">
+    <span class="post-copyright-meta">Authorship: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io">Zhao Biao</a>
+    </span>
+  </div>
+  <div class="post-copyright-type">
+    <span class="post-copyright-meta">Article Link: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io/2015/12/09/frontendvim/">https://buildall.github.io/2015/12/09/frontendvim/</a>
+    </span>
+  </div>
+  <div class="post-copyright-notice">
+    <span class="post-copyright-meta">Copyright: </span>
+    <span class="post-copyright-info">All posts on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> license unless otherwise stated. Please cite <a href="https://buildall.github.io" target="_blank">把生命浪费在美好的代码上</a> !</span>
+  </div>
+</div>
+
+  </div>
+</article>
+      </main>
+      <aside tabindex="-1">
+  
+  <div class="sidebar-block sidebar-sticky toc-wrap" tabindex="-1">
+    <div class="toc-btn">
+      <svg class="toc-btn-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+</svg>
+    </div>
+    <div class="sidebar-title toc-title">Catalog</div>
+    <div class="sidebar-body">
+      <ul class="toc-list">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vim%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">vim是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8vim"><span class="toc-number">2.</span> <span class="toc-text">为什么用vim</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim%E7%9B%B8%E5%85%B3%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">vim相关的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-number">3.1.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85vim"><span class="toc-number">4.</span> <span class="toc-text">安装vim</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-number">5.</span> <span class="toc-text">vim插件管理工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-vimrc"><span class="toc-number">6.</span> <span class="toc-text">vim配置文件.vimrc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="toc-number">7.</span> <span class="toc-text">前端常用插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8vim"><span class="toc-number">8.</span> <span class="toc-text">开始使用vim</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5%E4%B8%8B%E6%89%80%E6%9C%89%E5%91%BD%E4%BB%A4%E5%A6%82%E6%97%A0%E7%89%B9%E6%AE%8A%E8%AF%B4%E6%98%8E%EF%BC%8C%E9%83%BD%E6%98%AF%E6%8C%89%E9%A1%BA%E5%BA%8F%E8%BE%93%E5%85%A5%EF%BC%8C-%E5%A6%82%E8%A6%81%E8%BE%93%E5%85%A5%E5%91%BD%E4%BB%A4-ctrl-w-l-%E5%88%99%E5%85%88%E6%8C%89ctrl-%E7%84%B6%E5%90%8E%E6%9D%BE%E5%BC%80ctrl%EF%BC%8C%E5%86%8D%E6%8C%89w%EF%BC%8C%E5%86%8D%E6%9D%BE%E5%BC%80w%EF%BC%8C%E5%86%8D%E6%8C%89l%EF%BC%8C%E5%86%8D%E6%9D%BE%E5%BC%80l%E3%80%82%E5%85%B6%E4%B8%AD%E4%BB%BB%E4%BD%95%E4%B8%80%E4%B8%AA%E6%8C%89%E9%94%AE%E9%83%BD%E4%B8%8D%E5%8F%AF%E4%BB%A5%E6%8C%89%E4%BD%8F%E4%B8%8D%E6%94%BE%EF%BC%8C%E6%95%B4%E4%B8%AA%E8%BE%93%E5%85%A5%E8%BF%87%E7%A8%8B%E8%87%AA%E7%84%B6%E8%BF%9E%E8%B4%AF%E5%8D%B3%E5%8F%AF%E3%80%82"><span class="toc-number">8.1.</span> <span class="toc-text">以下所有命令如无特殊说明，都是按顺序输入， 如要输入命令 ctrl w l, 则先按ctrl, 然后松开ctrl，再按w，再松开w，再按l，再松开l。其中任何一个按键都不可以按住不放，整个输入过程自然连贯即可。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vim%E4%B8%AD%E7%9A%84%E5%91%BD%E4%BB%A4%E9%83%BD%E6%98%AF%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F%E7%9A%84%EF%BC%8C%E6%89%80%E4%BB%A5%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E5%90%84%E4%B8%AA%E5%91%BD%E4%BB%A4%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%86%99%E3%80%82"><span class="toc-number">8.2.</span> <span class="toc-text">vim中的命令都是大小写敏感的，所以需要注意各个命令的大小写。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.3.</span> <span class="toc-text">默认模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E5%85%89%E6%A0%87"><span class="toc-number">8.3.1.</span> <span class="toc-text">移动光标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E7%9A%84%E7%A7%BB%E5%8A%A8%EF%BC%9A"><span class="toc-number">8.3.2.</span> <span class="toc-text">一般的移动：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E7%A7%BB%E5%8A%A8%EF%BC%9A"><span class="toc-number">8.3.3.</span> <span class="toc-text">快速移动：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F%E8%B0%83%E6%95%B4%E5%91%BD%E4%BB%A4-%E5%8F%AA%E5%9C%A8%E6%89%93%E5%BC%80%E5%A4%9A%E4%B8%AA%E7%AA%97%E5%8F%A3%E6%97%B6%E7%94%9F%E6%95%88"><span class="toc-number">8.3.4.</span> <span class="toc-text">窗口大小调整命令(只在打开多个窗口时生效)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E5%91%BD%E4%BB%A4"><span class="toc-number">8.3.5.</span> <span class="toc-text">普通命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#INSERT%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.4.</span> <span class="toc-text">INSERT模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VISUAL%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.5.</span> <span class="toc-text">VISUAL模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VISUAL-BLOCK%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.6.</span> <span class="toc-text">VISUAL BLOCK模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.7.</span> <span class="toc-text">命令行模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NerdTree"><span class="toc-number">9.</span> <span class="toc-text">NerdTree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text">总结</span></a></li></ol>
+      </ul>
+    </div>
+  </div>
+  
+</aside>
+    </div>
+    
+    
+
+<footer class="footer main-width">
+  <div class="copyright">
+    &copy; 2020 - 2023
+    Zhao Biao
+  </div>
+  <div class="framework-info">
+    <span>Framework</span>
+    <a href="https://hexo.io" target="_blank">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme</span>
+    <a href="https://github.com/Lete114/hexo-theme-MengD" target="_blank">MengD</a>
+  </div>
+  
+  <div class="custom">A clean and lightweight Hexo theme</div>
+  
+</footer>
+  </div>
+  
+</body>
+
+</html>

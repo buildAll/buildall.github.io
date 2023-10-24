@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<head>
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  
+  <title>hexo是怎么工作的 | 把生命浪费在美好的代码上</title>
+  <link rel="shortcut icon" href="/img/favicon.png">
+  <meta name="description" content="你可能用过hexo(或者jekyll)来搭建自己的博客网站, 可是从hexo init 到 hexo deploy之间发生了什么呢...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo是怎么工作的">
+<meta property="og:url" content="https://buildall.github.io/2017/08/20/howhexoworks/index.html">
+<meta property="og:site_name" content="把生命浪费在美好的代码上">
+<meta property="og:description" content="你可能用过hexo(或者jekyll)来搭建自己的博客网站, 可是从hexo init 到 hexo deploy之间发生了什么呢...">
+<meta property="og:locale">
+<meta property="og:image" content="https://buildall.github.io/images/howhexoworks/hexo_logo.png">
+<meta property="og:image" content="https://buildall.github.io/images/howhexoworks/hexo_projects.png">
+<meta property="og:image" content="https://buildall.github.io/images/howhexoworks/render.png">
+<meta property="og:image" content="https://buildall.github.io/images/howhexoworks/post.png">
+<meta property="og:image" content="https://buildall.github.io/images/howhexoworks/deploy.png">
+<meta property="article:published_time" content="2017-08-20T03:02:28.000Z">
+<meta property="article:modified_time" content="2023-10-24T14:29:55.825Z">
+<meta property="article:author" content="Zhao Biao">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://buildall.github.io/images/howhexoworks/hexo_logo.png">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<script src="/js/image-preview.js" defer></script>
+
+  
+  
+<script src="/js/main.js" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+<html>
+
+<body>
+  
+  <div class="container">
+    <header class="user-select">
+  <div class="header-container-wrap">
+    <div class="header-container">
+      
+      
+      
+      <style>
+        .logo>* {
+          width:auto;height:4rem;
+        }
+      </style>
+      
+      <a href="/" class="logo">
+        <img data-src="/img/site-logo.png" / src=/img/site-logo.png>
+      </a>
+      
+      <nav>
+        
+        <div class="search" tabindex="-1">
+          <input class="search-input" placeholder="Search for articles" type="search" maxlength="64">
+          <div class="seach-icon-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12.4008 12.4008C14.744 10.0577 14.744 6.25871 12.4008 3.91556C10.0577 1.57242 6.25871 1.57242 3.91556 3.91556C1.57242 6.25871 1.57242 10.0577 3.91556 12.4008C6.25871 14.744 10.0577 14.744 12.4008 12.4008ZM12.4008 12.4008L15.5828 15.5828" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"></path>
+</svg>
+          </div>
+          <div class="search-history">
+            <div class="search-history-title">
+              <span>Search for History</span>
+              <span class="search-history-clear">Clear</span>
+            </div>
+            <div class="search-history-list"></div>
+          </div>
+          <div class="search-result"></div>
+          
+<script src="/js/search.js" path="&#x2F;search.json" defer></script>
+
+        </div>
+        
+
+        
+        
+        <ul class="nav-list">
+          
+          <li class="nav-list-item">
+            <a href="/">Home</a>
+          </li>
+          
+        </ul>
+        <div class="sidebar-nav" tabindex="-1">
+          <svg class="sidebar-nav-btn" viewBox="0 0 16 16" width="16" height="16">
+  <path d="M3,11.335h16M3,6h16M3,16.67h16" transform="translate(-3-3.335)" stroke="currentColor" stroke-width="2" />
+</svg>
+          <div class="mask" tabindex="-1"></div>
+          <ul class="nav-list">
+            
+            <li class="nav-list-item">
+              <a href="/">Home</a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+    <div class="main-wrap">
+      <main class="main-width">
+        
+        <h1 class="page-title">hexo是怎么工作的</h1>
+        
+        <article class="article page">
+  <div class="article-info">
+    
+    <img data-src="/img/avatar.png" alt="avatar" class="avatar" src=/img/site-logo.png>
+    
+    <div class="article-meta">
+      <div class="author-name">Zhao Biao</div>
+      <div class="article-meta-list">
+        
+        <time datetime="2017-08-20 11:02:28" title="2017-08-20 11:02:28" class="time">
+          2017-08-20 11:02:28
+        </time>
+        
+        <div class="article-meta-item-wrap">
+          
+          <div class="article-meta-item">
+            <svg class="word-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" >
+  <path d="M10 4H30L40 14V42C40 43.1046 39.1046 44 38 44H10C8.89543 44 8 43.1046 8 42V6C8 4.89543 8.89543 4 10 4Z"></path>
+  <path d="M16.0083 20L19.0083 34L24.0083 24L29.0083 34L32.0083 20"></path>
+</svg>
+            <span>1.7k</span>
+          </div>
+          
+          
+          <div class="article-meta-item">
+            <svg class="time-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z" />
+  <path d="M24.0084 12.0001L24.0072 24.0089L32.4866 32.4883" />
+</svg>
+            <span>6min</span>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="article-content"><img data-src="/images/howhexoworks/hexo_logo.png" class="" src=/img/site-logo.png>
+
+<p>你可能用过hexo(或者jekyll)来搭建自己的博客网站。通常我们在安装、配置完成hexo之后，借助hexo，一般通过以下步骤，就可以完成一篇博客的编写及发布，真是方便极了：</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo init           // 创建一个新的hexo项目</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo new mynewblog  // 新建一篇标题为mynewblog的文章</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo server         // 为hexo在本地起一个http server, 然后通过浏览器访问博客</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo generate       // 生成将要发布的博客网站包含html在内的静态资源</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo deploy         // 将generate的结果发布到_config.yml中指定的仓库</span></span><br></pre></td></tr></table></figure>
+<p>可是，从hexo init到hexo deploy中间发生了什么呢？为了搞清楚这一过程、理解hexo的工作原理，本文将试着回答以下问题:</p>
+<ul>
+<li>命令行中的hexo是什么</li>
+<li>hexo是怎么将我们写好的markdown转换成html的</li>
+<li>hexo插件是如何工作的</li>
+<li>本地的hexo项目和git page有什么关系</li>
+</ul>
+<p>本文<strong>不是</strong>:</p>
+<ul>
+<li>hexo的安装、使用教程</li>
+<li>git page的使用教程</li>
+</ul>
+<h2 id="命令行中的hexo是什么"><a href="#命令行中的hexo是什么" class="headerlink" title="命令行中的hexo是什么?"></a>命令行中的hexo是什么?</h2><p><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo">hexo</a>项目在github上已经有超过17k的star了，但是你知道吗，日常我们在命令行”操作”hexo时所输入的<strong>hexo</strong>(例如hexo init)并不是这个17k个star的项目! 是的，我们在命令行中所输入的”hexo”实际是<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/tree/master/lib"><strong>hexo-cli</strong></a>项目，该项目在github上的star还不足50个。</p>
+<blockquote>
+<p>hexo可以粗略分为三个子项目，分别是:</p>
+<ul>
+<li>hexo-cli</li>
+<li>hexo (下文中用hexo core来指代)</li>
+<li>hexo plugins</li>
+</ul>
+<p>其中hexo plugins不是指某一个单独的项目，而是泛指所有的hexo plugin项目。</p>
+<p>请看下图:</p>
+<img data-src="/images/howhexoworks/hexo_projects.png" class="" src=/img/site-logo.png>
+<p>让我们结合这张图来大致看看这三个项目的作用(下面的链接均是指向Github中相关的源码):</p>
+</blockquote>
+<ul>
+<li><strong>hexo-cli</strong>: hexo命令行项目，作用是:<ol>
+<li>启动hexo命令(进程)，及其参数<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/blob/5e0969ffa64dec427428a245ab2d65beaf23123b/lib/hexo.js#L49">解析</a>机制。每次我们输入’hexo xxx’命令后，都会通过node调用hexo-cli中的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/blob/5e0969ffa64dec427428a245ab2d65beaf23123b/lib/hexo.js#L13">entry函数</a>(比如，可以把’hexo init’视为’node hexo-cli&#x2F;entry.js init’)</li>
+<li>实现hexo命令的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/tree/master/lib/console">三个初始参数(功能)</a>: init &#x2F; version &#x2F; help</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/blob/5e0969ffa64dec427428a245ab2d65beaf23123b/lib/hexo.js#L85">加载</a>hexo核心模块，并<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/blob/5e0969ffa64dec427428a245ab2d65beaf23123b/lib/hexo.js#L47">初始化</a></li>
+</ol>
+</li>
+<li><strong>hexo core</strong>: hexo核心，他的主要作用如下:<ol>
+<li>实现了hexo功能<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/hexo/index.js#L59">扩展对象</a></li>
+<li>实现了hexo核心功能, 如new, publish, generate等（其实是一些hexo插件，下文中会详细分析）</li>
+</ol>
+</li>
+<li><strong>hexo plugins</strong>: 指一些能够扩展hexo的插件。插件可以按功能分成两类:<ol>
+<li>扩展hexo命令的参数，如<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-server">hexo-server</a>(安装这个插件以后才能使用hexo server命令)</li>
+<li>扩展hexo解析文件的”能力”，如增加jade模版解析功能的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-jade">hexo-render-jade</a>插件</li>
+</ol>
+</li>
+</ul>
+<h2 id="从markdown到html的旅程"><a href="#从markdown到html的旅程" class="headerlink" title="从markdown到html的旅程"></a>从markdown到html的旅程</h2><p>简单来说，hexo中，从markdown到html的generate过程中做了两件事：</p>
+<ol>
+<li>模板渲染</li>
+<li>模板渲染</li>
+</ol>
+<p>是的，就是这样，就是两次模板渲染。只不过两次渲染的输入、渲染模板的引擎、输出不一样。此处应该有一个表格：</p>
+<img data-src="/images/howhexoworks/render.png" class="" src=/img/site-logo.png>
+<p>还得有一张图:</p>
+<img data-src="/images/howhexoworks/post.png" class="" src=/img/site-logo.png>
+<blockquote>
+<p>对上面表格和图的说明:</p>
+<ul>
+<li>hexo core在generate的过程中会产生一个对象，我们在这里把这个对象称为article。第一次渲染的主要目的就是给这个对象添加title,content等属性。其中:<ol>
+<li>article.title, article.date, article.tags, article.categories等属性来自yml front的部分</li>
+<li>article.content是markdown文章解析后的html片段</li>
+</ol>
+</li>
+<li>hexo项目目录下包含三个子目录，<ol>
+<li>source目录，写博客的主要工作目录。这个目录下存放的是我们的markdown文章以及js, images, css</li>
+<li>themes目录，主题目录，定义了即将生成的html的layout, 和html中需要加载的css, js, images</li>
+<li>public目录, hexo generate的最终输出目录。里面包含了整个博客网站的html, css, js, images</li>
+</ol>
+</li>
+<li>第二次渲染，需要引入对应模板文件格式的插件，如.ejs文件就需要使用hexo-render-ejs插件，.jade文件需要使用hexo-render-jade插件，而.sass文件则需要hexo-render-sass插件来转换成css文件。hexo的这一设计有点类似webpack中的loader。</li>
+</ul>
+</blockquote>
+<h2 id="hexo插件是如何工作的"><a href="#hexo插件是如何工作的" class="headerlink" title="hexo插件是如何工作的"></a>hexo插件是如何工作的</h2><p>hexo和webpack还有一点类似的地方就是插件驱动理念。即hexo(和webpack)是先实现一套(插件)扩展系统，然后再往扩展系统中添加插件来实现自身的功能。即我们日常使用的hexo init, hexo new，hexo generate等等功能都是通过一个个插件(其实就是一个个function)实现的。</p>
+<blockquote>
+<p>具体来讲就是:</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/hexo/index.js#L59">hexo.extend</a>这个对象的每个属性都是一个用来绑定(特定)插件的对象。（所谓”绑定”，其实就是对象的register方法）</li>
+<li>hexo<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/hexo/index.js#L153">初始化</a>过程中先加载内部插件，再加载外部插件</li>
+</ol>
+<p>而这些插件的功能分为两大类: 命令行插件和generate过程相关功能，例如：</p>
+<ul>
+<li>命令行插件, hexo <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/plugins/console/index.js#L47">new</a>, 是在hexo.extend.console对象上绑定的一个<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/plugins/console/new.js">插件</a></li>
+<li>generate过程相关的插件，如上文提到的往article对象添加title,content等属性的功能，是通过往hexo.extend.processer对象上<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/plugins/processor/index.js#L13">绑定</a>post插件来<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/plugins/processor/post.js#L52">实现</a>的</li>
+</ul>
+<p>所以，当我们想自己动手写插件时，就是像hexo官网给出的<a target="_blank" rel="noopener" href="https://hexo.io/api/console.html">这样</a>,调用某个对象的register方法，如hexo.extend.console.register。</p>
+</blockquote>
+<h2 id="hexo和git-page"><a href="#hexo和git-page" class="headerlink" title="hexo和git page"></a>hexo和git page</h2><img data-src="/images/howhexoworks/deploy.png" class="" src=/img/site-logo.png>
+<p>如上图，(用户通过浏览器访问到的)git page上的博客网站其实是hexo generate之后生成的public目录下的内容。</p>
+<blockquote>
+<p>所以，一个hexo博客项目应该有两个仓库:</p>
+<ol>
+<li>(基于hexo init结果的)<a target="_blank" rel="noopener" href="https://github.com/buildAll/blogsrc">博客编写仓库</a>。可以把这个项目看成一个代码库，用来”开发”博客网站(包含写博客，生成博客等任务)</li>
+<li>存放(hexo generate结果的)<a target="_blank" rel="noopener" href="https://github.com/buildAll/buildall.github.io">public目录仓库</a>。这个项目是”只读”的，我们不会直接修改这个仓库的内容，我们也不会对这个仓库直接进行git pull、git commit、git push等常规操作。这个仓库的内容就是public目下的内容，即是通过hexo generate产生、hexo deploy提交的。</li>
+</ol>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>hexo简洁、强大的功能来自于自身优雅的系统设计:</p>
+<ol>
+<li>hexo进程启动、hexo核心对象封装、插件系统分别独立</li>
+<li>自身采用插件驱动，生来就具备高可扩展性</li>
+</ol>
+<p>希望读完这篇文章你能对hexo本身有更深入的理解，也能通过hexo的代码设计，对自己以后写出更优雅的代码有所启发。</p>
+<p>对于本文或者hexo有任何问题或评论，请到<a target="_blank" rel="noopener" href="https://github.com/buildAll/buildall.github.io/issues/3">这个</a>git issue页面给我留言吧。</p>
+<script>
+console.log('hello, how are you?')
+</script>
+</div>
+  
+  <div class="article-end">
+    
+    <div class="article-meta">
+      
+      <div class="article-categories">
+        <div class="article-categories-name">Categories: </div>
+        
+        <a class="article-categories-item" href="/categories/HowItWorks/">
+          HowItWorks
+        </a>
+        
+        <a class="article-categories-item" href="/categories/HowItWorks/hexo/">
+          hexo
+        </a>
+        
+      </div>
+      
+      
+      <div class="article-tags">
+        <div class="article-tags-name">Tags: </div>
+        
+        <a class="article-tags-item" href="/tags/hexo/">
+          hexo
+        </a>
+        
+      </div>
+      
+    </div>
+    
+    
+
+<div class="post-copyright">
+  <div class="post-copyright-icon"><svg class="copyright-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm117.134 346.753c-1.592 1.867-39.776 45.731-109.851 45.731-84.692 0-144.484-63.26-144.484-145.567 0-81.303 62.004-143.401 143.762-143.401 66.957 0 101.965 37.315 103.422 38.904a12 12 0 0 1 1.238 14.623l-22.38 34.655c-4.049 6.267-12.774 7.351-18.234 2.295-.233-.214-26.529-23.88-61.88-23.88-46.116 0-73.916 33.575-73.916 76.082 0 39.602 25.514 79.692 74.277 79.692 38.697 0 65.28-28.338 65.544-28.625 5.132-5.565 14.059-5.033 18.508 1.053l24.547 33.572a12.001 12.001 0 0 1-.553 14.866z" />
+</svg></div>
+  <div class="post-copyright-author">
+    <span class="post-copyright-meta">Authorship: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io">Zhao Biao</a>
+    </span>
+  </div>
+  <div class="post-copyright-type">
+    <span class="post-copyright-meta">Article Link: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io/2017/08/20/howhexoworks/">https://buildall.github.io/2017/08/20/howhexoworks/</a>
+    </span>
+  </div>
+  <div class="post-copyright-notice">
+    <span class="post-copyright-meta">Copyright: </span>
+    <span class="post-copyright-info">All posts on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> license unless otherwise stated. Please cite <a href="https://buildall.github.io" target="_blank">把生命浪费在美好的代码上</a> !</span>
+  </div>
+</div>
+
+  </div>
+</article>
+      </main>
+      <aside tabindex="-1">
+  
+  <div class="sidebar-block sidebar-sticky toc-wrap" tabindex="-1">
+    <div class="toc-btn">
+      <svg class="toc-btn-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+</svg>
+    </div>
+    <div class="sidebar-title toc-title">Catalog</div>
+    <div class="sidebar-body">
+      <ul class="toc-list">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%AD%E7%9A%84hexo%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">命令行中的hexo是什么?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8Emarkdown%E5%88%B0html%E7%9A%84%E6%97%85%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">从markdown到html的旅程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo%E6%8F%92%E4%BB%B6%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="toc-number">3.</span> <span class="toc-text">hexo插件是如何工作的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo%E5%92%8Cgit-page"><span class="toc-number">4.</span> <span class="toc-text">hexo和git page</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+      </ul>
+    </div>
+  </div>
+  
+</aside>
+    </div>
+    
+    
+
+<footer class="footer main-width">
+  <div class="copyright">
+    &copy; 2020 - 2023
+    Zhao Biao
+  </div>
+  <div class="framework-info">
+    <span>Framework</span>
+    <a href="https://hexo.io" target="_blank">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme</span>
+    <a href="https://github.com/Lete114/hexo-theme-MengD" target="_blank">MengD</a>
+  </div>
+  
+  <div class="custom">A clean and lightweight Hexo theme</div>
+  
+</footer>
+  </div>
+  
+</body>
+
+</html>

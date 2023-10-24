@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<head>
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  
+  <title>用standard来管理JavaScript代码规范 | 把生命浪费在美好的代码上</title>
+  <link rel="shortcut icon" href="/img/favicon.png">
+  <meta name="description" content="怎么才能使前端团队写的JavaScript代码都有统一的风格、符合规范呢? 试试本文介绍的JavaScrtip规范库standard吧...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用standard来管理JavaScript代码规范">
+<meta property="og:url" content="https://buildall.github.io/2017/08/12/js-standard/index.html">
+<meta property="og:site_name" content="把生命浪费在美好的代码上">
+<meta property="og:description" content="怎么才能使前端团队写的JavaScript代码都有统一的风格、符合规范呢? 试试本文介绍的JavaScrtip规范库standard吧...">
+<meta property="og:locale">
+<meta property="og:image" content="https://buildall.github.io/images/jsstandard/standard_logo.png">
+<meta property="article:published_time" content="2017-08-12T01:48:07.000Z">
+<meta property="article:modified_time" content="2023-10-24T14:34:23.999Z">
+<meta property="article:author" content="Zhao Biao">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://buildall.github.io/images/jsstandard/standard_logo.png">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<script src="/js/image-preview.js" defer></script>
+
+  
+  
+<script src="/js/main.js" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+<html>
+
+<body>
+  
+  <div class="container">
+    <header class="user-select">
+  <div class="header-container-wrap">
+    <div class="header-container">
+      
+      
+      
+      <style>
+        .logo>* {
+          width:auto;height:4rem;
+        }
+      </style>
+      
+      <a href="/" class="logo">
+        <img data-src="/img/site-logo.png" / src=/img/site-logo.png>
+      </a>
+      
+      <nav>
+        
+        <div class="search" tabindex="-1">
+          <input class="search-input" placeholder="Search for articles" type="search" maxlength="64">
+          <div class="seach-icon-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12.4008 12.4008C14.744 10.0577 14.744 6.25871 12.4008 3.91556C10.0577 1.57242 6.25871 1.57242 3.91556 3.91556C1.57242 6.25871 1.57242 10.0577 3.91556 12.4008C6.25871 14.744 10.0577 14.744 12.4008 12.4008ZM12.4008 12.4008L15.5828 15.5828" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"></path>
+</svg>
+          </div>
+          <div class="search-history">
+            <div class="search-history-title">
+              <span>Search for History</span>
+              <span class="search-history-clear">Clear</span>
+            </div>
+            <div class="search-history-list"></div>
+          </div>
+          <div class="search-result"></div>
+          
+<script src="/js/search.js" path="&#x2F;search.json" defer></script>
+
+        </div>
+        
+
+        
+        
+        <ul class="nav-list">
+          
+          <li class="nav-list-item">
+            <a href="/">Home</a>
+          </li>
+          
+        </ul>
+        <div class="sidebar-nav" tabindex="-1">
+          <svg class="sidebar-nav-btn" viewBox="0 0 16 16" width="16" height="16">
+  <path d="M3,11.335h16M3,6h16M3,16.67h16" transform="translate(-3-3.335)" stroke="currentColor" stroke-width="2" />
+</svg>
+          <div class="mask" tabindex="-1"></div>
+          <ul class="nav-list">
+            
+            <li class="nav-list-item">
+              <a href="/">Home</a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+    <div class="main-wrap">
+      <main class="main-width">
+        
+        <h1 class="page-title">用standard来管理JavaScript代码规范</h1>
+        
+        <article class="article page">
+  <div class="article-info">
+    
+    <img data-src="/img/avatar.png" alt="avatar" class="avatar" src=/img/site-logo.png>
+    
+    <div class="article-meta">
+      <div class="author-name">Zhao Biao</div>
+      <div class="article-meta-list">
+        
+        <time datetime="2017-08-12 09:48:07" title="2017-08-12 09:48:07" class="time">
+          2017-08-12 09:48:07
+        </time>
+        
+        <div class="article-meta-item-wrap">
+          
+          <div class="article-meta-item">
+            <svg class="word-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" >
+  <path d="M10 4H30L40 14V42C40 43.1046 39.1046 44 38 44H10C8.89543 44 8 43.1046 8 42V6C8 4.89543 8.89543 4 10 4Z"></path>
+  <path d="M16.0083 20L19.0083 34L24.0083 24L29.0083 34L32.0083 20"></path>
+</svg>
+            <span>963</span>
+          </div>
+          
+          
+          <div class="article-meta-item">
+            <svg class="time-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z" />
+  <path d="M24.0084 12.0001L24.0072 24.0089L32.4866 32.4883" />
+</svg>
+            <span>3min</span>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="article-content"><img data-src="/images/jsstandard/standard_logo.png" class="" src=/img/site-logo.png>
+
+<p>怎么才能使前端团队写的JavaScript代码都有统一的风格、符合规范呢?</p>
+<p>要解决这个问题大概要做下面几件事:</p>
+<ol>
+<li>制定规范标准</li>
+<li>写代码时执行代码规范</li>
+<li>检查代码是否符合规范</li>
+<li>修改不符合规范的代码</li>
+</ol>
+<p>那么，到底具体应该如何实施以上几个步骤呢？我的回答是你什么都不用做了，有人已经帮你把以上四步全部做好了！</p>
+<p>是的，这个好用的工具就是本文要介绍的JavaScript规范库，<a target="_blank" rel="noopener" href="https://github.com/standard/standard">standarad</a>。</p>
+<h2 id="关于standard"><a href="#关于standard" class="headerlink" title="关于standard"></a>关于standard</h2><h4 id="standard是什么"><a href="#standard是什么" class="headerlink" title="standard是什么?"></a>standard是什么?</h4><p>一个开源的JS代码规范库，它做了以下事情</p>
+<ol>
+<li>制定了所谓standard(标准)的JS代码规范</li>
+<li>配合编辑器插件可以实时检查代码规范以及语法错误</li>
+<li>通过执行命令检查代码规范以及语法错误</li>
+<li>自动修复(可以直接修复的)不合规范的代码,使其符合规范</li>
+</ol>
+<h2 id="关于standard中的代码规范"><a href="#关于standard中的代码规范" class="headerlink" title="关于standard中的代码规范"></a>关于standard中的代码规范</h2><p>  可以说JS这门语言的魅力之一就是自由、开放的写法，相比python、Go等语言，JS写起来自由的多。但是这种自由本身在团队合作的项目里也带来了很多的不便，于是我们需要指定代码规范，但是应该以什么标准来制定规范呢？缩进到底是4格还是2格、结尾要不要用分号、花括号和if语句在同一行还是另起一行？诸如此类的问题，从功能和逻辑上来讲并没有标准答案，因为无论怎么选，代码都能运行，功能都能实现。所以在JS程序员的世界里经常会有诸如缩进、分号、换行等写法的争论，standard库对此给出的结论是，这种争论对于getting stuff done并无意义，我们要停止这方面的争论，把精力放在解决问题上。</p>
+<p>  standard官方给出的说法如下:</p>
+<p><em>There are lots of debates online about tabs vs. spaces, etc. that will never be resolved. These debates just distract from getting stuff done. At the end of the day you have to ‘just pick something’, and that’s the whole philosophy of standard – its a bunch of sensible ‘just pick something’ opinions. Hopefully, users see the value in that over defending their own opinions.</em></p>
+<h2 id="使用standard"><a href="#使用standard" class="headerlink" title="使用standard"></a>使用standard</h2><p>好了，开始使用standard吧。</p>
+<ol>
+<li><p>新建一个项目</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">mkdir</span> my-project</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> my-project</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装standard</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm init</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install standard --save-dev</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装snazzy，让代码检查的结果输出更加美观</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install snazzy --save-dev</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置package.json, 添加一条名为lint的npm script</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line"> <span class="string">&quot;lint&quot;</span>: <span class="string">&quot;standard --verbose | snazzy&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在项目下新建一个app.js文件,随意输入一些代码并保存</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="comment">// app.js             // 错误说明</span></span><br><span class="line"><span class="keyword">const</span> a = <span class="number">1</span>;          <span class="comment">// 结尾不应该有分号，而且a定义了没有使用</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">f</span> = (<span class="params"></span>) =&gt; &#123;&#125;    <span class="comment">// f定义了但是没有使用</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">log</span>()                 <span class="comment">// log未定义</span></span><br></pre></td></tr></table></figure></li>
+<li><p>运行代码检查</p>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm run lint</span></span><br></pre></td></tr></table></figure></li>
+<li><p>看到检查结果</p>
+</li>
+</ol>
+<figure class="highlight shell">
+    <div class="code-block-header" lang="shell">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line">1:7   error  &#x27;a&#x27; is assigned a value but never used  no-unused-vars</span><br><span class="line">1:12  error  Extra semicolon                         semi</span><br><span class="line">2:7   error  &#x27;f&#x27; is assigned a value but never used  no-unused-vars</span><br><span class="line">4:1   error  &#x27;log&#x27; is not defined                    no-undef</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="standard的更多功能"><a href="#standard的更多功能" class="headerlink" title="standard的更多功能"></a>standard的更多功能</h2><ol>
+<li>使用<a target="_blank" rel="noopener" href="https://github.com/standard/standard#are-there-text-editor-plugins">编辑器插件</a>，实时检查代码规范</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/standard/standard#how-do-i-ignore-files">忽略</a>某些不需要执行代码规范的文件</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/standard/standard#how-do-i-hide-a-certain-warning">局部禁用</a>代码检查</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/standard/standard#i-use-a-library-that-pollutes-the-global-namespace-how-do-i-prevent-variable-is-not-defined-errors">指定全局变量</a>，以避免变量未定义错误</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/standard/standard#is-there-a-git-pre-commit-hook">git pre-commit</a>钩子，在每次commit之前检查代码规范</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/standard/standard#how-do-i-use-experimental-javascript-es-next-features">为更多最新的JS语法添加检查规范</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/standard/standard#is-there-an-automatic-formatter">自动修复</a></li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>standard应该是当前最好用的JS代码规范库，它无须更多配置，基本做到了安装即用，而且还有很多扩展功能，应该能够满足大多数项目的代码检查需求。</p>
+<p>关于standard，如果你有任何问题可以来<a target="_blank" rel="noopener" href="https://github.com/buildAll/buildall.github.io/issues/2">这里</a>一起讨论。</p>
+</div>
+  
+  <div class="article-end">
+    
+    <div class="article-meta">
+      
+      <div class="article-categories">
+        <div class="article-categories-name">Categories: </div>
+        
+        <a class="article-categories-item" href="/categories/JavaScript/">
+          JavaScript
+        </a>
+        
+        <a class="article-categories-item" href="/categories/JavaScript/standard/">
+          standard
+        </a>
+        
+      </div>
+      
+      
+      <div class="article-tags">
+        <div class="article-tags-name">Tags: </div>
+        
+        <a class="article-tags-item" href="/tags/JavaScript/">
+          JavaScript
+        </a>
+        
+      </div>
+      
+    </div>
+    
+    
+
+<div class="post-copyright">
+  <div class="post-copyright-icon"><svg class="copyright-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm117.134 346.753c-1.592 1.867-39.776 45.731-109.851 45.731-84.692 0-144.484-63.26-144.484-145.567 0-81.303 62.004-143.401 143.762-143.401 66.957 0 101.965 37.315 103.422 38.904a12 12 0 0 1 1.238 14.623l-22.38 34.655c-4.049 6.267-12.774 7.351-18.234 2.295-.233-.214-26.529-23.88-61.88-23.88-46.116 0-73.916 33.575-73.916 76.082 0 39.602 25.514 79.692 74.277 79.692 38.697 0 65.28-28.338 65.544-28.625 5.132-5.565 14.059-5.033 18.508 1.053l24.547 33.572a12.001 12.001 0 0 1-.553 14.866z" />
+</svg></div>
+  <div class="post-copyright-author">
+    <span class="post-copyright-meta">Authorship: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io">Zhao Biao</a>
+    </span>
+  </div>
+  <div class="post-copyright-type">
+    <span class="post-copyright-meta">Article Link: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io/2017/08/12/js-standard/">https://buildall.github.io/2017/08/12/js-standard/</a>
+    </span>
+  </div>
+  <div class="post-copyright-notice">
+    <span class="post-copyright-meta">Copyright: </span>
+    <span class="post-copyright-info">All posts on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> license unless otherwise stated. Please cite <a href="https://buildall.github.io" target="_blank">把生命浪费在美好的代码上</a> !</span>
+  </div>
+</div>
+
+  </div>
+</article>
+      </main>
+      <aside tabindex="-1">
+  
+  <div class="sidebar-block sidebar-sticky toc-wrap" tabindex="-1">
+    <div class="toc-btn">
+      <svg class="toc-btn-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+</svg>
+    </div>
+    <div class="sidebar-title toc-title">Catalog</div>
+    <div class="sidebar-body">
+      <ul class="toc-list">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Estandard"><span class="toc-number">1.</span> <span class="toc-text">关于standard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#standard%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.0.1.</span> <span class="toc-text">standard是什么?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Estandard%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83"><span class="toc-number">2.</span> <span class="toc-text">关于standard中的代码规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8standard"><span class="toc-number">3.</span> <span class="toc-text">使用standard</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#standard%E7%9A%84%E6%9B%B4%E5%A4%9A%E5%8A%9F%E8%83%BD"><span class="toc-number">4.</span> <span class="toc-text">standard的更多功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+      </ul>
+    </div>
+  </div>
+  
+</aside>
+    </div>
+    
+    
+
+<footer class="footer main-width">
+  <div class="copyright">
+    &copy; 2020 - 2023
+    Zhao Biao
+  </div>
+  <div class="framework-info">
+    <span>Framework</span>
+    <a href="https://hexo.io" target="_blank">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme</span>
+    <a href="https://github.com/Lete114/hexo-theme-MengD" target="_blank">MengD</a>
+  </div>
+  
+  <div class="custom">A clean and lightweight Hexo theme</div>
+  
+</footer>
+  </div>
+  
+</body>
+
+</html>

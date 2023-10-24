@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<head>
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  
+  <title>用代码说明JavaScript里的继承 | 把生命浪费在美好的代码上</title>
+  <link rel="shortcut icon" href="/img/favicon.png">
+  <meta name="description" content="JavaScript是通过prototype来实现继承的。也就是人们常说的&quot;原型继承&quot;。本文的目的就是用代码来说明，到底什么是原型继承。JavaScript里有两个“原型”...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用代码说明JavaScript里的继承">
+<meta property="og:url" content="https://buildall.github.io/2015/11/06/inheritance/index.html">
+<meta property="og:site_name" content="把生命浪费在美好的代码上">
+<meta property="og:description" content="JavaScript是通过prototype来实现继承的。也就是人们常说的&quot;原型继承&quot;。本文的目的就是用代码来说明，到底什么是原型继承。JavaScript里有两个“原型”...">
+<meta property="og:locale">
+<meta property="og:image" content="https://buildall.github.io/images/javascript_logo/js.jpg">
+<meta property="article:published_time" content="2015-11-06T02:45:42.000Z">
+<meta property="article:modified_time" content="2023-10-24T14:49:21.241Z">
+<meta property="article:author" content="Zhao Biao">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="JS继承">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://buildall.github.io/images/javascript_logo/js.jpg">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+<script src="/js/image-preview.js" defer></script>
+
+  
+  
+<script src="/js/main.js" defer></script>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+<html>
+
+<body>
+  
+  <div class="container">
+    <header class="user-select">
+  <div class="header-container-wrap">
+    <div class="header-container">
+      
+      
+      
+      <style>
+        .logo>* {
+          width:auto;height:4rem;
+        }
+      </style>
+      
+      <a href="/" class="logo">
+        <img data-src="/img/site-logo.png" / src=/img/site-logo.png>
+      </a>
+      
+      <nav>
+        
+        <div class="search" tabindex="-1">
+          <input class="search-input" placeholder="Search for articles" type="search" maxlength="64">
+          <div class="seach-icon-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12.4008 12.4008C14.744 10.0577 14.744 6.25871 12.4008 3.91556C10.0577 1.57242 6.25871 1.57242 3.91556 3.91556C1.57242 6.25871 1.57242 10.0577 3.91556 12.4008C6.25871 14.744 10.0577 14.744 12.4008 12.4008ZM12.4008 12.4008L15.5828 15.5828" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"></path>
+</svg>
+          </div>
+          <div class="search-history">
+            <div class="search-history-title">
+              <span>Search for History</span>
+              <span class="search-history-clear">Clear</span>
+            </div>
+            <div class="search-history-list"></div>
+          </div>
+          <div class="search-result"></div>
+          
+<script src="/js/search.js" path="&#x2F;search.json" defer></script>
+
+        </div>
+        
+
+        
+        
+        <ul class="nav-list">
+          
+          <li class="nav-list-item">
+            <a href="/">Home</a>
+          </li>
+          
+        </ul>
+        <div class="sidebar-nav" tabindex="-1">
+          <svg class="sidebar-nav-btn" viewBox="0 0 16 16" width="16" height="16">
+  <path d="M3,11.335h16M3,6h16M3,16.67h16" transform="translate(-3-3.335)" stroke="currentColor" stroke-width="2" />
+</svg>
+          <div class="mask" tabindex="-1"></div>
+          <ul class="nav-list">
+            
+            <li class="nav-list-item">
+              <a href="/">Home</a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+    <div class="main-wrap">
+      <main class="main-width">
+        
+        <h1 class="page-title">用代码说明JavaScript里的继承</h1>
+        
+        <article class="article page">
+  <div class="article-info">
+    
+    <img data-src="/img/avatar.png" alt="avatar" class="avatar" src=/img/site-logo.png>
+    
+    <div class="article-meta">
+      <div class="author-name">Zhao Biao</div>
+      <div class="article-meta-list">
+        
+        <time datetime="2015-11-06 10:45:42" title="2015-11-06 10:45:42" class="time">
+          2015-11-06 10:45:42
+        </time>
+        
+        <div class="article-meta-item-wrap">
+          
+          <div class="article-meta-item">
+            <svg class="word-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" >
+  <path d="M10 4H30L40 14V42C40 43.1046 39.1046 44 38 44H10C8.89543 44 8 43.1046 8 42V6C8 4.89543 8.89543 4 10 4Z"></path>
+  <path d="M16.0083 20L19.0083 34L24.0083 24L29.0083 34L32.0083 20"></path>
+</svg>
+            <span>2.6k</span>
+          </div>
+          
+          
+          <div class="article-meta-item">
+            <svg class="time-icon" width="16" height="16" viewBox="0 0 48 48" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z" />
+  <path d="M24.0084 12.0001L24.0072 24.0089L32.4866 32.4883" />
+</svg>
+            <span>10min</span>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="article-content"><img data-src="/images/javascript_logo/js.jpg" class="" src=/img/site-logo.png>
+
+<p>JavaScript是通过prototype来实现继承的。也就是人们常说的”原型继承”。</p>
+<p>本文的目的就是用代码来说明，到底什么是原型继承。</p>
+<h2 id="原型是什么"><a href="#原型是什么" class="headerlink" title="原型是什么"></a>原型是什么</h2><p>JavaScript里有两个“原型”:</p>
+<figure class="highlight elm">
+    <div class="code-block-header" lang="elm">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="number">1.</span>proto<span class="keyword">type</span></span><br><span class="line"><span class="number">2.</span>__proto__</span><br></pre></td></tr></table></figure>
+
+<p>prototype，是JavaScript里由关键字”function”定义的对象的一个特有的属性，这个属性本身又是一个对象。可能大多数不熟悉原型概念的人看到这句话会有点晕，OK，让我们打开控制台，敲几行代码感受下吧。打开你的chrome浏览器，按F12或者command+option+i，并选中控制台(console)，输入以下代码(注：控制台中可以按ctrl+enter来换行):</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">IamFunction</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;&#125;;<span class="comment">//定义一个函数</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">IamFunction</span>.<span class="property"><span class="keyword">prototype</span></span>);<span class="comment">//打印结果为IamFunction &#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">IamObject</span> = &#123;&#125;;<span class="comment">//定义一个对象</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">IamObject</span>.<span class="property"><span class="keyword">prototype</span></span>);<span class="comment">//打印结果为undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">IamNumber</span> = <span class="number">0</span>;<span class="comment">//定义一个数字</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">IamNumber</span>.<span class="property"><span class="keyword">prototype</span></span>);<span class="comment">//打印结果为undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">IamString</span> = <span class="string">&#x27;&#x27;</span>;<span class="comment">//定义一个字符串</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">IamString</span>.<span class="property"><span class="keyword">prototype</span></span>);<span class="comment">//打印结果为undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">IamArray</span> = [];<span class="comment">//定义一个数组</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">IamArray</span>.<span class="property"><span class="keyword">prototype</span></span>);<span class="comment">//打印结果为undefined</span></span><br></pre></td></tr></table></figure>
+
+<p>由上面的代码可以看出，所谓prototype这个东西，只存在于某个function。(这里并没有检查JavaScript中所有的数据类型上prototype属性，但结果是一样的，你可以自己试一下，只有function类型会有prototype属性。)在上面的例子中，打印结果”IamFunction {}”就表示，prototype就是IamFunction的一个属性，它的默认值是{}。</p>
+<p>除了Function构造的对象上prototype属性，JavaScript里还有一个地方有“原型”，既由构造函数创建的对象的__proto__属性。关于这个__proto__属性，请看下面的内容吧。</p>
+<h2 id="函数的调用方式"><a href="#函数的调用方式" class="headerlink" title="函数的调用方式"></a>函数的调用方式</h2><p>JS里的函数有两种调用方法:普通调用和作为构造函数调用。既：</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Func</span>(<span class="params"></span>)&#123;&#125;      <span class="comment">//定义一个函数Func</span></span><br><span class="line"><span class="title class_">Func</span>();                <span class="comment">//普通调用， 没有关键字new</span></span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="title class_">Func</span>();  <span class="comment">//当作构造函数调用，有关键字new</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到两种调用方法字面上的差异是有无关键字new。下面看看两种调用方式的具体区别。</p>
+<p>首先我们定义一个函数Animal。</p>
+<figure class="highlight arcade">
+    <div class="code-block-header" lang="arcade">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="comment">//定义函数Animal</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Animal</span>(<span class="params">animalName</span>)&#123;</span><br><span class="line">   <span class="built_in">console</span>.<span class="built_in">log</span>(<span class="string">&#x27;function is called&#x27;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="built_in">console</span>.<span class="built_in">log</span>(this);</span><br><span class="line">   <span class="built_in">console</span>.<span class="built_in">log</span>(this.eat);</span><br><span class="line">   this.name = animalName;</span><br><span class="line">   <span class="built_in">console</span>.<span class="built_in">log</span>(this.name);</span><br><span class="line"></span><br><span class="line">   <span class="built_in">console</span>.<span class="built_in">log</span>(<span class="string">&#x27;function is going to return&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>像上文说的，所有的function变量都有prototype属性，所以我们可以这样给prototype属性添加方法：</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="comment">//给函数Animal的prototype属性添加eat方法</span></span><br><span class="line"><span class="title class_">Animal</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">eat</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;eating&#x27;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<p>先来看普通调用的情况:</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="comment">//以下是A行</span></span><br><span class="line"><span class="keyword">var</span> dog = <span class="title class_">Animal</span>(<span class="string">&#x27;dog&#x27;</span>);  <span class="comment">//调用函数Animal，未使用new  ******* A ******</span></span><br><span class="line">                          <span class="comment">//上面这行代码的意思可以理解为：调用Animal函数，并把返回值赋给变量dog;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(dog);         <span class="comment">//打印结果为undefined</span></span><br><span class="line"><span class="comment">/*******</span></span><br><span class="line"><span class="comment">* 对于上面这行打印结果的解释:变量dog的值为undefined是因为函数Animal的定义的最后并没有写上return，既函数本身没有任何返回值，既undefined</span></span><br><span class="line"><span class="comment">******/</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">window</span>.<span class="property">name</span>); <span class="comment">//打印结果为dog。对于这个打印的解释请往下看。</span></span><br></pre></td></tr></table></figure>
+
+
+<p>让我们看看在上面A行调用过程中，到底发生了什么。</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Animal</span>(<span class="params">animalName</span>)&#123;</span><br><span class="line"></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;function is called&#x27;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>);  <span class="comment">//打印结果为Window &#123;external: Object, chrome: Object, document: document, dog: undefined, speechSynthesis: SpeechSynthesis…&#125;</span></span><br><span class="line">   <span class="comment">/******</span></span><br><span class="line"><span class="comment">   *  对于以上面这行打印结果的解释： 这里打印的是对象window。window对象是由浏览器用类似下面的代码自动创建的</span></span><br><span class="line"><span class="comment">   *  var window = new Window();</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   *  因为A行是直接在全局作用域调、既window对象上调用了Animal(&#x27;dog&#x27;)，所以this引用的是window对象。</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   *  既JavaScript内部执行了类似这样的代码:</span></span><br><span class="line"><span class="comment">   *  this = window;</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   ******/</span></span><br><span class="line"></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">eat</span>);   <span class="comment">//打印结果为undefined。这是由于this引用了window，而window本身并没有eat方法。</span></span><br><span class="line"></span><br><span class="line">   <span class="variable language_">this</span>.<span class="property">name</span> = animalName;</span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>);  <span class="comment">//打印结果为dog。因为上面一行将函数参数animalName的值，也就是&#x27;dog&#x27;赋给this.name，所以这里打印出&#x27;dog&#x27;。</span></span><br><span class="line">                            <span class="comment">//再次注意这里的this已经引用了对象window，所以给this添加name属性既给window添加了name属性。</span></span><br><span class="line"></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;function is going to return&#x27;</span>);</span><br><span class="line">   <span class="comment">// 函数体的最后并没有显性的写上return;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>再看看使用new关键字调用Animal时会发生什么：</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="comment">//以下是B行</span></span><br><span class="line"><span class="keyword">var</span> dog = <span class="keyword">new</span> <span class="title class_">Animal</span>(<span class="string">&#x27;dog&#x27;</span>); <span class="comment">//在Animal的调用前使用了关键字new，则此时Animal函数成为了构造函数。  ********* B *********</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(dog);            <span class="comment">//打印结果为 Animal &#123;name: &quot;dog&quot;&#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">window</span>.<span class="property">name</span>)     <span class="comment">//打印结果为undefined;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>B行在函数Animal的调用Animal()前加上了关键字new，像这样在函数调用前加上new，此时函数就被当作构造函数使用了。这里的”构造”过程如下:</p>
+<p>1.在JavaScript内部，new会创建一个对象{}。你可以想象成JavaScript内部执行了这样一行代码:</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> newObject = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>2.这个对象的__proto__属性随即引用了Animal的prototype属性。你可以想像成JavaScript内部执行了这样的代码:</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="title class_">Object</span>.<span class="title function_">setPrototypeOf</span>(newObject, <span class="title class_">Animal</span>.<span class="property"><span class="keyword">prototype</span></span>);  <span class="comment">//设置newObject的__proto__属性</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面一行也可以写成newObject.__proto__ = Animal.prototype。</span></span><br><span class="line"><span class="comment">// __proto__是JavaScript对象里特有的属性，它引用构造函数的prototype属性。</span></span><br><span class="line"><span class="comment">// 你可以这样访问__proto__属性，Object.getPrototypeOf(newObject)，或者newObject.__proto__;</span></span><br></pre></td></tr></table></figure>
+
+<p>3.随即发生了类似这样的操作:</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="title class_">Animal</span>.<span class="title function_">call</span>(newObject, <span class="string">&#x27;dog&#x27;</span>); <span class="comment">//这里相当于使用了函数的call方法改变了函数内部this的指向。</span></span><br></pre></td></tr></table></figure>
+
+
+<p>4.最后，这个由new创建的对象会被函数返回，既</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Animal</span>(<span class="params"><span class="string">&#x27;dog&#x27;</span></span>)&#123;</span><br><span class="line"></span><br><span class="line">  newObject.<span class="property">name</span> = <span class="string">&#x27;dog&#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> newObject;        <span class="comment">//相当于JavaScript内部自动给我们的函数定义添加了一句return this;注意，只有当有new关键字出现时，才会自动添加这句。</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>完整的看一下B行调用Animal的过程中，发生了什么：</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Animal</span>(<span class="params">animalName</span>)&#123;</span><br><span class="line"></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;function is called&#x27;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>);  <span class="comment">//打印结果为 &gt; Animal &#123;&#125;</span></span><br><span class="line">   <span class="comment">/******</span></span><br><span class="line"><span class="comment">   * 调用对象被new关键字设置为了newObject，所以这里打印的是&#123;&#125;, 前面的&quot;Animal&quot; 是告诉你这个&#123;&#125;的构造函数为Animal</span></span><br><span class="line"><span class="comment">   * 而由于作用域中有 this.name = animalName这行代码，所以如果你点击该行打印结果前面的箭头展开这个对象，你会看到这个&#123;&#125;已经具备了name属性。关于作用域，这里就不展开说了。</span></span><br><span class="line"><span class="comment">   ******/</span></span><br><span class="line"></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">eat</span>);   <span class="comment">//打印结果为function()&#123;console.log(&#x27;eating&#x27;)&#125;</span></span><br><span class="line">   <span class="comment">/*****</span></span><br><span class="line"><span class="comment">   * 上文中的构造过程第2步中已经说明newObject的__proto__属性引用了Animal.prototype属性。</span></span><br><span class="line"><span class="comment">   * 这里的eat方法正是来自于__proto__属性。而JavaScript中规定，只要是__proto__上的属性，都可以省略__proto__，直接通过newObject.eat来访问。</span></span><br><span class="line"><span class="comment">   ***/</span></span><br><span class="line"></span><br><span class="line">   <span class="variable language_">this</span>.<span class="property">name</span> = animalName;</span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>);  <span class="comment">//打印结果为dog。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;function is going to return&#x27;</span>);</span><br><span class="line">   <span class="comment">// 函数体的最后并没有显性的写上return;</span></span><br><span class="line">   <span class="comment">// 但是由于用new关键字调用了函数Animal，所以这里相当于执行了 return this;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="典型的继承写法"><a href="#典型的继承写法" class="headerlink" title="典型的继承写法"></a>典型的继承写法</h2><p>先总结一下上文出现的概念:</p>
+<figure class="highlight elm">
+    <div class="code-block-header" lang="elm">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="number">1.</span><span class="type">JavaScript</span>里的函数都有proto<span class="keyword">type</span>属性。</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>对象都有__proto__属性。</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>对象的__proto__属性引用创建其的构造函数的proto<span class="keyword">type</span>属性。</span><br></pre></td></tr></table></figure>
+
+<p>如果理解了上面的这三条概念，那么就不难理解继承了。我们来看JavaScript里典型的继承写法:</p>
+<figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Animal</span>(<span class="params">animalName</span>)&#123;        <span class="comment">//定义函数Animal</span></span><br><span class="line">   <span class="variable language_">this</span>.<span class="property">name</span> = animalName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title class_">Animal</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">eat</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;  <span class="comment">//给Animal的prototype属性添加eat方法</span></span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;eating&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Dog</span>(<span class="params"></span>)&#123;&#125;                    <span class="comment">//定义函数Dog</span></span><br><span class="line"><span class="title class_">Dog</span>.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title class_">Animal</span>(<span class="string">&#x27;dog&#x27;</span>);  <span class="comment">//将函数Dog的prototype属性引用为函数Animal&quot;构造&quot;的对象，这步是重点，继承在这里发生了。</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Dog</span>.<span class="property"><span class="keyword">prototype</span></span>);         <span class="comment">//打印结果为 Animal &#123;name:&#x27;dog&#x27;&#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Dog</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">name</span>);    <span class="comment">//打印结果为&#x27;dog&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Dog</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">eat</span>());   <span class="comment">//打印结果为&#x27;eating&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Dog</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">hasOwnPropety</span>(<span class="string">&#x27;name&#x27;</span>))          <span class="comment">// 打印 true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Dog</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">hasOwnPropety</span>(<span class="string">&#x27;eat&#x27;</span>))           <span class="comment">// 打印 false。上面虽然调用eat方法成功了，但是令人意外的是Dog.prototype本身并没有eat方法。</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Dog</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">__proto__</span>.<span class="title function_">hasOwnPropety</span>(<span class="string">&#x27;eat&#x27;</span>)) <span class="comment">// 打印 true</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><figure class="highlight js">
+    <div class="code-block-header" lang="js">
+      <span class="copy-code">COPY</span>
+    </div>
+    <table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Animal</span>(<span class="params"></span>)&#123;&#125;</span><br><span class="line"><span class="title class_">Animal</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">eat</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I can eat&#x27;</span>);&#125;;       <span class="comment">//给Animal的原型添加eat方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Human</span>(<span class="params"></span>)&#123;&#125;</span><br><span class="line"><span class="title class_">Human</span>.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title class_">Animal</span>();</span><br><span class="line"><span class="comment">//这行代码可以拆成两行理解，</span></span><br><span class="line"><span class="comment">//var animal = new Animal; 此时animal.__proto__引用自Animal.prototype，既animal.__proto__.hasOwnPropety(&#x27;eat&#x27;)返回true</span></span><br><span class="line"><span class="comment">//Human.prototype = animal; 此时Human.prototype.__proto__.hasOwnPropety(&#x27;eat&#x27;)返回true</span></span><br><span class="line"><span class="comment">//则有 Human.prototype.__proto__.eat(); 打印 I can eat</span></span><br><span class="line"><span class="comment">//而JS中可以省略__proto__直接用&quot;.&quot;去访问__proto__上的属性，所以这时候可以像这样调用eat方法：</span></span><br><span class="line"><span class="comment">//Human.prototype.eat(); 打印 I can eat</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//所以应该可以理解下面的代码了:</span></span><br><span class="line"><span class="comment">//var someone = new Human();</span></span><br><span class="line"><span class="comment">//上面的new构造过程包括了这样的操作: someone.__proto__ = Human.prototype;</span></span><br><span class="line"><span class="comment">//既someone.__proto__ = animal;</span></span><br><span class="line"><span class="comment">//则有:</span></span><br><span class="line"><span class="comment">//someone.__proto__.__proto__.eat(); 打印 I can eat。</span></span><br><span class="line"><span class="comment">//省略__proto__后</span></span><br><span class="line"><span class="comment">//someone.eat();  I can eat</span></span><br><span class="line"><span class="comment">//既someone对象继承了Animal上的eat方法。</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Human</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">speak</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I can speak&#x27;</span>);&#125;;    <span class="comment">//此时Human.prototype这个由Animal构造的对象拥有了speak方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Coder</span>(<span class="params"></span>)&#123;&#125;</span><br><span class="line"><span class="title class_">Coder</span>.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title class_">Human</span>();</span><br><span class="line"><span class="title class_">Coder</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">coding</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I can coding&#x27;</span>);&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">JSer</span>(<span class="params"></span>)&#123;&#125;</span><br><span class="line"><span class="title class_">JSer</span>.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title class_">Coder</span>();</span><br><span class="line"><span class="title class_">JSer</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">codingInJS</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I can conding in JS&#x27;</span>);&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> me = <span class="keyword">new</span> <span class="title class_">JSer</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">//原型链来了：</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me)                                                              <span class="comment">//打印结果为JSer &#123;&#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="property">__proto__</span>);                                                   <span class="comment">//打印结果为Coder &#123;&#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="property">__proto__</span>.<span class="property">__proto__</span>);                                         <span class="comment">//打印结果为Human &#123;&#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>);                               <span class="comment">//打印结果为Animal &#123;&#125;, 拥有speak方法的Animal构造出的对象</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>);                     <span class="comment">//打印结果为Animal &#123;&#125;, 没有speak方法</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>);           <span class="comment">//打印结果为Object &#123;&#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>.<span class="property">__proto__</span>); <span class="comment">//打印结果为null，此时原型链到达尽头</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//以下调用均省略了__proto__属性</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="title function_">eat</span>());                                              <span class="comment">//打印I can eat 。eat继承自构造函数Animal</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="title function_">speak</span>());                                            <span class="comment">//打印I can speak。speak方法继承自构造函数Human</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="title function_">coding</span>());                                           <span class="comment">//打印I can coding。 coding方法继承自构造函数Coder</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(me.<span class="title function_">codingInJS</span>());                                       <span class="comment">//打印I can coding in JS。 codingInJS方法继承自构造函数JSer</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>JavaScript通过设置构造函数的prototype对象，从而决定了通过new构造出来的对象的__proto__属性。</li>
+<li>因为每个对象都具备__proto__属性，从而实现了一条原型链。</li>
+<li>又因为JavaScript可以省略__proto__去调用__proto__属性上的方法，所以我们就可以轻松的访问整条原型链上的属性了。</li>
+</ol>
+</div>
+  
+  <div class="article-end">
+    
+    <div class="article-meta">
+      
+      <div class="article-categories">
+        <div class="article-categories-name">Categories: </div>
+        
+        <a class="article-categories-item" href="/categories/JavaScript/">
+          JavaScript
+        </a>
+        
+      </div>
+      
+      
+      <div class="article-tags">
+        <div class="article-tags-name">Tags: </div>
+        
+        <a class="article-tags-item" href="/tags/JavaScript/">
+          JavaScript
+        </a>
+        
+        <a class="article-tags-item" href="/tags/JS%E7%BB%A7%E6%89%BF/">
+          JS继承
+        </a>
+        
+      </div>
+      
+    </div>
+    
+    
+
+<div class="post-copyright">
+  <div class="post-copyright-icon"><svg class="copyright-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm117.134 346.753c-1.592 1.867-39.776 45.731-109.851 45.731-84.692 0-144.484-63.26-144.484-145.567 0-81.303 62.004-143.401 143.762-143.401 66.957 0 101.965 37.315 103.422 38.904a12 12 0 0 1 1.238 14.623l-22.38 34.655c-4.049 6.267-12.774 7.351-18.234 2.295-.233-.214-26.529-23.88-61.88-23.88-46.116 0-73.916 33.575-73.916 76.082 0 39.602 25.514 79.692 74.277 79.692 38.697 0 65.28-28.338 65.544-28.625 5.132-5.565 14.059-5.033 18.508 1.053l24.547 33.572a12.001 12.001 0 0 1-.553 14.866z" />
+</svg></div>
+  <div class="post-copyright-author">
+    <span class="post-copyright-meta">Authorship: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io">Zhao Biao</a>
+    </span>
+  </div>
+  <div class="post-copyright-type">
+    <span class="post-copyright-meta">Article Link: </span>
+    <span class="post-copyright-info">
+      <a href="https://buildall.github.io/2015/11/06/inheritance/">https://buildall.github.io/2015/11/06/inheritance/</a>
+    </span>
+  </div>
+  <div class="post-copyright-notice">
+    <span class="post-copyright-meta">Copyright: </span>
+    <span class="post-copyright-info">All posts on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> license unless otherwise stated. Please cite <a href="https://buildall.github.io" target="_blank">把生命浪费在美好的代码上</a> !</span>
+  </div>
+</div>
+
+  </div>
+</article>
+      </main>
+      <aside tabindex="-1">
+  
+  <div class="sidebar-block sidebar-sticky toc-wrap" tabindex="-1">
+    <div class="toc-btn">
+      <svg class="toc-btn-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+  <path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z"></path>
+</svg>
+    </div>
+    <div class="sidebar-title toc-title">Catalog</div>
+    <div class="sidebar-body">
+      <ul class="toc-list">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">原型是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">函数的调用方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E7%9A%84%E7%BB%A7%E6%89%BF%E5%86%99%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">典型的继承写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE"><span class="toc-number">4.</span> <span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+      </ul>
+    </div>
+  </div>
+  
+</aside>
+    </div>
+    
+    
+
+<footer class="footer main-width">
+  <div class="copyright">
+    &copy; 2020 - 2023
+    Zhao Biao
+  </div>
+  <div class="framework-info">
+    <span>Framework</span>
+    <a href="https://hexo.io" target="_blank">Hexo</a>
+    <span class="footer-separator">|</span>
+    <span>Theme</span>
+    <a href="https://github.com/Lete114/hexo-theme-MengD" target="_blank">MengD</a>
+  </div>
+  
+  <div class="custom">A clean and lightweight Hexo theme</div>
+  
+</footer>
+  </div>
+  
+</body>
+
+</html>

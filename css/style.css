@@ -120,6 +120,10 @@ header .header-container-wrap {
   background: var(--main-color);
   border-bottom: 1px solid var(--main-color-border);
 }
+header .header-container-wrap .site-title {
+  margin-left: 20px;
+  color: var(--main-color-text);
+}
 header .header-container-wrap .search {
   width: 240px;
   background: var(--main-color-bg);
@@ -325,7 +329,7 @@ header .header-container-wrap .header-container nav .nav-list a {
   }
 }
 .main-width {
-  width: 70%;
+  width: 80%;
   padding: 1rem 1.66rem;
   box-sizing: border-box;
 }
@@ -1004,7 +1008,7 @@ figure.highlight:hover .copy-code {
   transform: translateY(-50%);
 }
 aside {
-  width: 28%;
+  width: 18%;
 }
 aside .sidebar-custom {
   padding: 1.333rem;

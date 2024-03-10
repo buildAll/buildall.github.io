@@ -124,6 +124,11 @@ header .header-container-wrap .site-title {
   margin-left: 20px;
   color: var(--main-color-text);
 }
+@media (max-width: 1000px) {
+  header .header-container-wrap .site-title {
+    display: none;
+  }
+}
 header .header-container-wrap .search {
   width: 240px;
   background: var(--main-color-bg);
